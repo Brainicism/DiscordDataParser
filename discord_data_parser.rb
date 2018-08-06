@@ -56,12 +56,13 @@ end
 
 #ignore . .. and index.json
 total_threads = Dir.entries(MESSAGES_PATH).size - 3
-
+start_time = Time.now
 message_index.each_with_index do |(thread_id, thread_name), index|
-    print "Progress: #{index + 1}/#{total_threads}\n"
-    parse_message_file("#{MESSAGES_PATH}/#{thread_id}/messages.csv", thread_name.nil? ? 'unknown_user' : thread_name )
+    thread_name = thread_name.nil? ? 'unknown_user': thread_name
+    print "Progress: #{index + 1}/#{total_threads} (#{thread_name})\n"
+    parse_message_file("#{MESSAGES_PATH}/#{thread_id}/messages.csv", thread_name)
 end
-
+end_time = Time.now
 output = @analyzer.output
 system "clear" or system "cls"
 
@@ -72,3 +73,7 @@ write_output(output, :per_thread)
 write_output(output, :commonly_used_words)
 print "Total Messages: #{output[:total_message_count]}\n"
 print "Average words per sentence: #{output[:average_words_per_message]}\n"
+print "Average messages per day: #{output[:average_messages_per_day]}\n"
+print "Most used word: #{output[:commonly_used_words][0]}\n"
+print "Most active thread: #{output[:per_thread][0]}\n"
+print "Took: #{end_time - start_time}s\n"
