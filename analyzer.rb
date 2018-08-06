@@ -12,14 +12,14 @@ class Analyzer
         @total_message_count = 0
         @total_word_count = 0
     end
+    
     def new_data(lines, thread_name)
         @total_message_count += lines.length
         process_messages_by_thread(lines, thread_name)
         lines.each do |line|
-            floored_date_time =  floor_hour(line[:date_time])
-            process_message_by_time_of_day(floored_date_time)
-            process_message_by_day_of_week(floored_date_time)
-            process_messages_by_date(floored_date_time)
+            process_message_by_time_of_day(line[:date_time])
+            process_message_by_day_of_week(line[:date_time])
+            process_messages_by_date(line[:date_time])
             process_total_word_count(line[:message])
             process_commonly_used_words(line[:message])
         end
@@ -43,7 +43,6 @@ class Analyzer
         @commonly_used_words[message.strip.downcase] += 1
     end
 
-
     def process_total_word_count(message)
         return if message.nil?
         @total_word_count += message.split(" ").length
@@ -62,9 +61,6 @@ class Analyzer
 
     def process_message_by_day_of_week(time) 
         @message_by_day_of_week[time.strftime(DAY_OF_WEEK_FORMAT).to_i] += 1
-    end
-    def floor_hour(time)
-        time - time.sec - 60 * time.min
     end
 
     def convert_24h_to_12h(hour)
