@@ -29,7 +29,7 @@ class Analyzer
         {
             by_date: @messages_by_date.sort_by{|date, count| date}.reverse,
             by_time_of_day: @message_by_time_of_day.sort_by{|hour, count| hour}.map{|hour, count| [convert_24h_to_12h(hour), count]},
-            by_day_of_week: @message_by_day_of_week.sort_by{|day, count| day}.map{|day, count| [Date::DAYNAMES[day.to_s.to_i], count]},
+            by_day_of_week: @message_by_day_of_week.sort_by{|day, count| day}.map{|day, count| [Date::DAYNAMES[day], count]},
             commonly_used_words: @commonly_used_words.select{|word, count| count > 10}.sort_by{|word, count| count}.reverse,
             per_thread: @messages_per_thread.sort_by{|thread_name, count| count}.reverse,
             average_words_per_message: (@total_word_count.to_f/@total_message_count).round(2),
@@ -50,18 +50,18 @@ class Analyzer
     end
 
     def process_messages_by_date(time)
-        @messages_by_date[time.strftime(DATE_FORMAT).to_sym] += 1
+        @messages_by_date[time.strftime(DATE_FORMAT)] += 1
     end
 
     def process_messages_by_thread(lines, thread_name)
-        @messages_per_thread[thread_name.to_sym] = lines.length
+        @messages_per_thread[thread_name] = lines.length
     end
     def process_message_by_time_of_day(time) 
-        @message_by_time_of_day[time.strftime(TIME_OF_DAY_FORMAT).to_sym] += 1
+        @message_by_time_of_day[time.strftime(TIME_OF_DAY_FORMAT)] += 1
     end
 
     def process_message_by_day_of_week(time) 
-        @message_by_day_of_week[time.strftime(DAY_OF_WEEK_FORMAT).to_sym] += 1
+        @message_by_day_of_week[time.strftime(DAY_OF_WEEK_FORMAT).to_i] += 1
     end
     def floor_hour(time)
         time - time.sec - 60 * time.min
