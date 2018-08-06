@@ -50,16 +50,16 @@ rescue JSON::ParserError, Errno::ENOENT => e
     return
 end
 
-total_messages = 0
 total_threads = Dir.entries(MESSAGES_PATH).size
 message_index.each_with_index do |(thread_id, thread_name), index|
     print "Progress: #{index}/#{total_threads}\n"
     processed_data = parse_message_file("#{MESSAGES_PATH}/#{thread_id}/messages.csv", thread_name.nil? ? 'unknown_user' : thread_name )
-    total_messages = total_messages + processed_data.length
 end
 
 write_output(:by_date)
 write_output(:by_time_of_day)
 write_output(:by_day_of_week)
 write_output(:per_thread)
-print "Total Messages: #{total_messages}"
+system "clear" or system "cls"
+print "Total Messages: #{@analyzer.output[:total_message_count]}\n"
+print "Average words per sentence: #{@analyzer.output[:average_words_per_message]}\n"
