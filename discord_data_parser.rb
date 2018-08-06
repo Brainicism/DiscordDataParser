@@ -4,18 +4,35 @@ require './analyzer'
 require 'time'
 @analyzer = Analyzer.new
 @time_zone = Time.now.zone.freeze
-MESSAGES_PATH = './messages'.freeze
-def parse_csv(file_path, thread_name)
-    lines = CSV.read(file_path)
-    lines.shift
-    lines = lines.map do |line|
-        {
-            date_time: Time.parse(line[1]) + Time.zone_offset(@time_zone),
-            message: line[2],
-            attachments: line[3]
-        }
+
+if ARGV[0].nil?
+    print "Defaulting to messages directory ./messages...\n"
+    MESSAGES_PATH = './messages'.freeze
+else
+    MESSAGES_PATH = ARGV[0].freeze
+end
+
+if !File.directory? MESSAGES_PATH
+    print "Directory doesn't exist\n"
+    return
+end
+
+def parse_message_file(file_path, thread_name)
+    csv_lines = CSV.read(file_path)
+    csv_lines.shift
+    csv_lines = csv_lines.map do |csv_line|
+        begin
+            {
+                date_time: Time.parse(csv_line[1]) + Time.zone_offset(@time_zone),
+                message: csv_line[2],
+                attachments: csv_line[3]
+            }
+        rescue
+            print "Could not parse csv line\n"
+            return {}
+        end
     end
-    @analyzer.new_data(lines, thread_name)
+    @analyzer.new_data(csv_lines, thread_name)
 end
 
 def write_output(type)
@@ -26,11 +43,19 @@ def write_output(type)
     end
 end
 
-message_index = JSON.parse(File.read("#{MESSAGES_PATH}/index.json"))
+begin
+    message_index = JSON.parse(File.read("#{MESSAGES_PATH}/index.json"))
+rescue JSON::ParserError, Errno::ENOENT => e
+    print "Could not parse #{"#{MESSAGES_PATH}/index.json"}\n"
+    return
+end
+
 total_messages = 0
-message_index.each do |thread_id, thread_name|
-    lines = parse_csv("#{MESSAGES_PATH}/#{thread_id}/messages.csv", thread_name.nil? ? 'unknown_user' : thread_name )
-    total_messages = total_messages + lines.length
+total_threads = Dir.entries(MESSAGES_PATH).size
+message_index.each_with_index do |(thread_id, thread_name), index|
+    print "Progress: #{index}/#{total_threads}\n"
+    processed_data = parse_message_file("#{MESSAGES_PATH}/#{thread_id}/messages.csv", thread_name.nil? ? 'unknown_user' : thread_name )
+    total_messages = total_messages + processed_data.length
 end
 
 write_output(:by_date)
