@@ -60,6 +60,7 @@ write_output(:by_date)
 write_output(:by_time_of_day)
 write_output(:by_day_of_week)
 write_output(:per_thread)
+write_output(:commonly_used_words)
 system "clear" or system "cls"
 print "Total Messages: #{@analyzer.output[:total_message_count]}\n"
 print "Average words per sentence: #{@analyzer.output[:average_words_per_message]}\n"
