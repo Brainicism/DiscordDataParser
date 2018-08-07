@@ -1,6 +1,6 @@
-require './analyzer'
+require_relative 'analyzer'
 require 'time'
-require './utils'
+require_relative 'utils'
 class DiscordDataParser
     attr_accessor :MESSAGES_PATH
     @@time_zone = Time.now.zone.freeze
@@ -31,6 +31,7 @@ class DiscordDataParser
         results(@analyzer.output)
     end
 
+    private
     def results(output)
         [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_words].each do |type|
             Utils::write_output(output, type) {|output_file| @output_files.push(output_file)}
@@ -62,8 +63,6 @@ class DiscordDataParser
         end
         @analyzer.new_data(csv_lines, thread_name)
     end
-
-
 end
 
 if $PROGRAM_NAME == __FILE__
@@ -72,4 +71,5 @@ if $PROGRAM_NAME == __FILE__
     rescue => e
         puts "#{e}"
     end
+    gets.chomp
 end
