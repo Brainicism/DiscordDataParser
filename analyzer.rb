@@ -1,10 +1,10 @@
+require './utils'
 class Analyzer
     attr_reader :messages_by_date, :message_by_time_of_day, :message_by_day_of_week, :commonly_used_words, :messages_per_thread
     attr_accessor :total_message_count, :total_word_count
     TIME_OF_DAY_FORMAT = '%H'
     DATE_FORMAT = '%F'
     DAY_OF_WEEK_FORMAT = '%w'
-    TIME_FORMAT_24H = '%l:00 %p'
 
     def initialize 
         @messages_by_date = Hash.new(0)
@@ -31,7 +31,7 @@ class Analyzer
     def output 
         {
             by_date: messages_by_date.sort_by{|date, count| date}.reverse,
-            by_time_of_day: message_by_time_of_day.sort_by{|hour, count| hour}.map{|hour, count| [convert_24h_to_12h(hour), count]},
+            by_time_of_day: message_by_time_of_day.sort_by{|hour, count| hour}.map{|hour, count| [Utils::convert_24h_to_12h(hour), count]},
             by_day_of_week: message_by_day_of_week.sort_by{|day, count| day}.map{|day, count| [Date::DAYNAMES[day], count]},
             commonly_used_words: commonly_used_words.select{|word, count| count >= 10}.sort_by{|word, count| count}.reverse,
             per_thread: messages_per_thread.sort_by{|thread_name, count| count}.reverse,
@@ -65,9 +65,5 @@ class Analyzer
 
     def process_message_by_day_of_week(time) 
         message_by_day_of_week[time.strftime(DAY_OF_WEEK_FORMAT).to_i] += 1
-    end
-
-    def convert_24h_to_12h(hour)
-        Time.parse("#{hour}:00").strftime(TIME_FORMAT_24H)
     end
 end
