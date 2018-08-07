@@ -29,7 +29,7 @@ class Utils
 
         def write_output(output, type)
             if !output.key? type
-                print "Could not find output key: #{type}\n"
+                puts "Could not find output key: #{type}"
                 return
             end
             output_file = "#{type.to_s}.csv"
