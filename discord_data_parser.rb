@@ -35,12 +35,15 @@ def parse_message_file(file_path, thread_name)
     @analyzer.new_data(csv_lines, thread_name)
 end
 
+@output_files = []
 def write_output(output, type)
     if !output.key? type
         print "Could not find output key: #{type}\n"
         return
     end
-    CSV.open("#{type.to_s}.csv", "w") do |csv|
+    output_file = "#{type.to_s}.csv"
+    @output_files.push output_file
+    CSV.open(output_file, "w") do |csv|
         output[type].each do |key, value|
             csv << [key, value]
         end
@@ -66,11 +69,9 @@ end_time = Time.now
 output = @analyzer.output
 system "clear" or system "cls"
 
-write_output(output, :by_date)
-write_output(output, :by_time_of_day)
-write_output(output, :by_day_of_week)
-write_output(output, :per_thread)
-write_output(output, :commonly_used_words)
+[:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_words].each{|type| write_output(output, type)}
+
+print "Output files: #{@output_files}\n"
 print "Total Messages: #{output[:total_message_count]}\n"
 print "Average words per sentence: #{output[:average_words_per_message]}\n"
 print "Average messages per day: #{output[:average_messages_per_day]}\n"
