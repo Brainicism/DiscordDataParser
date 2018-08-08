@@ -1,9 +1,10 @@
 
-![demo](/example.png)
+![demo](/examples/messages.png)
+![demo](/examples/sessions.png)
 
 # Usage
 ```
-ruby discord_data_parser.rb [path_to_messages_folder]
+ruby discord_data_parser.rb [path_to_data_backup]
 ```
 The following .csv files are generated with the processed data:
 - Messages by day
@@ -12,10 +13,15 @@ The following .csv files are generated with the processed data:
 - Messages by thread
 - Most frequently used phrases
 
+- Game play count
+- Time spent per device
+- Time spent per location
+- Time spent per OS
+
 The following information is shown:
 - Total number of messages sent
 - Average message length
-
+- Average length per session
 
 # Requesting your data
 You can retrieve your past Discord messages by following the instructions in the article below.
