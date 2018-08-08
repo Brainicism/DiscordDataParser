@@ -4,7 +4,7 @@
 
 # Usage
 ```
-ruby discord_data_parser.rb [path_to_data_backup]
+ruby app.rb [path_to_data_backup]
 ```
 The following .csv files are generated with the processed data:
 - Messages by day
@@ -12,7 +12,6 @@ The following .csv files are generated with the processed data:
 - Messages by time of day
 - Messages by thread
 - Most frequently used phrases
-
 - Game play count
 - Time spent per device
 - Time spent per location
