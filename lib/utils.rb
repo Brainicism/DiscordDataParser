@@ -5,11 +5,17 @@ class Utils
     TIME_FORMAT_24H = '%l:00 %p'
     TIMEZONE = Time.now.zone.freeze
     class << self
+        def parse_funky_new_line_json_array(path)
+            File.foreach(path) do |json_line|
+                yield JSON.parse(json_line)
+            end
+        end
+
         def parse_json_from_file(path)
             begin
                 JSON.parse(File.read(path))
-            rescue JSON::ParserError, Errno::ENOENT
-                raise "Could not parse #{path}\n"
+            rescue JSON::ParserError, Errno::ENOENT => e
+                raise "Could not parse #{path}. #{e.to_s[0..50]}\n"
             end
         end
     

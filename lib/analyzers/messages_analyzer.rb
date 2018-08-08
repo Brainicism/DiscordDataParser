@@ -1,4 +1,4 @@
-require_relative 'utils'
+require_relative '../utils'
 class MessagesAnalyzer
     attr_reader :messages_by_date, :message_by_time_of_day, :message_by_day_of_week, :commonly_used_words, :messages_per_thread, :path
     attr_accessor :total_message_count, :total_word_count
