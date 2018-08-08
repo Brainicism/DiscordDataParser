@@ -1,7 +1,9 @@
 require 'json'
 require 'csv'
 class Utils
+    OUTPUT_PATH = './output'
     TIME_FORMAT_24H = '%l:00 %p'
+    TIMEZONE = Time.now.zone.freeze
     class << self
         def parse_json_from_file(path)
             begin
@@ -33,7 +35,7 @@ class Utils
                 return
             end
             output_file = "#{type.to_s}.csv"
-            CSV.open(output_file, "w") do |csv|
+            CSV.open("#{OUTPUT_PATH}/#{output_file}", "w") do |csv|
                 output[type].each do |key, value|
                     csv << [key, value]
                 end
