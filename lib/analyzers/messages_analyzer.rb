@@ -22,6 +22,7 @@ class MessagesAnalyzer
         message_index = Utils::parse_json_from_file("#{path}/index.json")
         total_threads = Utils::get_num_of_directories(path)
         @start_time = Time.now
+        puts 'Begin parsing messages...'
         message_index.each_with_index do |(thread_id, thread_name), index|
             thread_name = thread_name.nil? ? 'unknown_user': thread_name
             puts "Progress: #{index + 1}/#{total_threads} (#{thread_name})"
@@ -49,7 +50,7 @@ class MessagesAnalyzer
     def results(output)
         output_files = []
         [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_words].each do |type|
-            Utils::write_output(output, type) {|output_file| output_files.push(output_file)}
+            Utils::write_output(output, 'messages' ,type) {|output_file| output_files.push(output_file)}
         end
         
         puts "Output files: #{output_files}"
@@ -58,7 +59,7 @@ class MessagesAnalyzer
         puts "Average messages per day: #{output[:average_messages_per_day]}"
         puts "Most used word: #{output[:commonly_used_words][0]}"
         puts "Most active thread: #{output[:per_thread][0]}"
-        puts "Took: #{@end_time - @start_time}s"
+        puts "Finished parsing messages! Took: #{@end_time - @start_time}s"
     end
 
     def new_data(lines, thread_name)

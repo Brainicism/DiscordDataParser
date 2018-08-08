@@ -20,6 +20,7 @@ class DiscordDataParser
     def call
         @message_analyzer.call
         @activity_analyzer.call
+        puts 'Finished!'
     end
 end
 

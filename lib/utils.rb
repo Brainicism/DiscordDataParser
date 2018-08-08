@@ -35,13 +35,13 @@ class Utils
             Dir.entries(path).select {|entry| File.directory? File.join(path, entry) and !(entry =='.' || entry == '..') }.length
         end
 
-        def write_output(output, type)
+        def write_output(output, directory, type)
             if !output.key? type
                 puts "Could not find output key: #{type}"
                 return
             end
             output_file = "#{type.to_s}.csv"
-            CSV.open("#{OUTPUT_PATH}/#{output_file}", "w") do |csv|
+            CSV.open("#{OUTPUT_PATH}/#{directory}/#{output_file}", "w") do |csv|
                 output[type].each do |key, value|
                     csv << [key, value]
                 end
