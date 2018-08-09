@@ -3,6 +3,9 @@ require 'csv'
 class Utils
     OUTPUT_PATH = './output'
     TIME_FORMAT_24H = '%l:00 %p'
+    TIME_OF_DAY_FORMAT = '%H'
+    DATE_FORMAT = '%F'
+    DAY_OF_WEEK_FORMAT = '%w'
     TIMEZONE = Time.now.zone.freeze
     class << self
         def parse_funky_new_line_json_array(path)
