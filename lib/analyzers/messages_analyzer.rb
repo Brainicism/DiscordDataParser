@@ -28,13 +28,13 @@ class MessagesAnalyzer
     def results(output)
         output_files = []
         [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_words].each do |type|
-            Utils::write_output(output, 'messages' ,type) {|output_file| output_files.push(output_file)}
+            Utils::write_output_csv(output, 'messages' ,type) {|output_file| output_files.push(output_file)}
         end
         {
             output_files: output_files,
             output_strings: [
-                "Message Analysis #{(@end_time - @start_time).round(1)}s",
-                "-----------------------------------",
+               "Message Analysis #{(@end_time - @start_time).round(1)}s",
+               "-----------------------------------",
                "Total Messages: #{output[:total_message_count]}",
                "Average words per sentence: #{output[:average_words_per_message]}",
                "Average messages per day: #{output[:average_messages_per_day]}",

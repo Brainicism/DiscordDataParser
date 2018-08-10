@@ -14,11 +14,14 @@ class DiscordDataParser
         messages_path = "#{data_path}/messages"
         activity_path = "#{data_path}/activity/analytics"
         @message_analyzer = MessagesAnalyzer.new(messages_path)
-        @activity_analyzer = ActivityAnalyzer.new(activity_path)
+        activity_analyzer_params = {}
+        activity_analyzer_params[:verify_events] = true if ARGV.include? '--verify-events'
+        activity_analyzer_params[:update_events] = true if ARGV.include? '--update-events'
+        @activity_analyzer = ActivityAnalyzer.new(activity_path, activity_analyzer_params)
     end
     
     def call
-        final_output = [ @message_analyzer.call, @activity_analyzer.call].reduce({output_files: [], output_strings: []}) do |total, output|
+        final_output = [@message_analyzer.call, @activity_analyzer.call].reduce({output_files: [], output_strings: []}) do |total, output|
             total[:output_files] += output[:output_files]
             total[:output_strings] += output[:output_strings]
             total

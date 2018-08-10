@@ -38,7 +38,7 @@ class Utils
             Dir.entries(path).select {|entry| File.directory? File.join(path, entry) and !(entry =='.' || entry == '..') }.length
         end
 
-        def write_output(output, directory, type)
+        def write_output_csv(output, directory, type)
             if !output.key? type
                 puts "Could not find output key: #{type}"
                 return
