@@ -18,9 +18,14 @@ class DiscordDataParser
     end
     
     def call
-        @message_analyzer.call
-        @activity_analyzer.call
-        puts 'Finished!'
+        final_output = [ @message_analyzer.call, @activity_analyzer.call].reduce({output_files: [], output_strings: []}) do |total, output|
+            total[:output_files] += output[:output_files]
+            total[:output_strings] += output[:output_strings]
+            total
+        end
+        system "clear" or system "cls"
+        puts "Files saved: [#{final_output[:output_files].map{|file| "\"#{file}\""  }.join(", ")}]"
+        puts final_output[:output_strings].join("\n")
     end
 end
 

@@ -49,7 +49,7 @@ class Utils
                     csv << [key, value]
                 end
             end
-            yield output_file
+            yield "#{directory}/#{output_file}"
         end
     end
 end

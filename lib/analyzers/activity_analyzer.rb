@@ -11,13 +11,19 @@ class ActivityAnalyzer
     end
 
     def call
-        raise "Directory doesn't exist\n" if  !File.directory? path
+        raise "Directory doesn't exist\n" unless File.directory? path
         @start_time = Time.now
         puts 'Begin parsing activity...'
+        list = Hash.new(0)
         Dir.foreach(path) do |activity_log| 
             next if activity_log == '.' or activity_log == '..'
             Utils::parse_funky_new_line_json_array("#{path}/#{activity_log}") do |parsed_activity_line|
                 event_type = parsed_activity_line['event_type']
+
+                if event_type == 'user_avatar_updated'
+                    list[Time.parse(parsed_activity_line['timestamp'])] = parsed_activity_line['event_id']
+                end
+
                 session_processor.process(parsed_activity_line, event_type) if ['session_end', 'session_start', 'app_opened'].include? event_type
                 reaction_processor.process(parsed_activity_line, event_type) if ['add_reaction', 'remove_reaction'].include? event_type
                 game_processor.process(parsed_activity_line, event_type) if ['launch_game', 'game_opened'].include? event_type
@@ -37,17 +43,20 @@ class ActivityAnalyzer
         [:games_play_count, :time_by_os, :time_by_location, :time_by_device, :reactions_by_use].each do |type|
             Utils::write_output(output, 'activity' , type) {|output_file| output_files.push(output_file)}
         end
-        puts "Finished parsing activity! Took: #{@end_time - @start_time}s"
-        puts "Total Sessions: #{output[:total_sessions]}"
-        puts "Average session length: #{output[:average_session_length]} minutes" 
-        puts "App opened #{output[:total_app_open]} times"
-        puts "Total Reactions Added: #{output[:total_reactions_added]}"
-        puts "Total Reactions Removed: #{output[:total_reactions_removed]}"
-        puts "Total Voice Channels Joined: #{output[:total_voice_channel_connections]}"
-        puts "Output files: #{output_files}"
+        {
+            output_files: output_files,
+            output_strings: [
+               "Activity Analysis #{(@end_time - @start_time).round(1)}s",
+               "-----------------------------------",
+               "Total Sessions: #{output[:total_sessions]}",
+               "Average session length: #{output[:average_session_length]} minutes" ,
+               "App opened #{output[:total_app_open]} times",
+               "Total Reactions Added: #{output[:total_reactions_added]}",
+               "Total Reactions Removed: #{output[:total_reactions_removed]}",
+               "Total Voice Channels Joined: #{output[:total_voice_channel_connections]}\n"
+            ]
+        }
     end
-
-   
 end
 
 class VoiceProcessor 

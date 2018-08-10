@@ -9,7 +9,7 @@ class MessagesAnalyzer
     end
 
     def call
-        raise "Directory doesn't exist\n" if  !File.directory? path
+        raise "Directory doesn't exist\n" unless File.directory? path
         message_index = Utils::parse_json_from_file("#{path}/index.json")
         total_threads = Utils::get_num_of_directories(path)
         @start_time = Time.now
@@ -20,7 +20,6 @@ class MessagesAnalyzer
             parse_message_file("#{path}/#{thread_id}/messages.csv", thread_name)
         end
         @end_time = Time.now
-        system "clear" or system "cls"
         results(output)
     end
 
@@ -29,13 +28,18 @@ class MessagesAnalyzer
         [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_words].each do |type|
             Utils::write_output(output, 'messages' ,type) {|output_file| output_files.push(output_file)}
         end
-        puts "Output files: #{output_files}"
-        puts "Total Messages: #{output[:total_message_count]}"
-        puts "Average words per sentence: #{output[:average_words_per_message]}"
-        puts "Average messages per day: #{output[:average_messages_per_day]}"
-        puts "Most used word: #{output[:commonly_used_words][0]}"
-        puts "Most active thread: #{output[:per_thread][0]}"
-        puts "Finished parsing messages! Took: #{@end_time - @start_time}s"
+        {
+            output_files: output_files,
+            output_strings: [
+                "Message Analysis #{(@end_time - @start_time).round(1)}s",
+                "-----------------------------------",
+               "Total Messages: #{output[:total_message_count]}",
+               "Average words per sentence: #{output[:average_words_per_message]}",
+               "Average messages per day: #{output[:average_messages_per_day]}",
+               "Most used word: #{output[:commonly_used_words][0]}",
+               "Most active thread: #{output[:per_thread][0]}\n"
+            ]
+        }
     end
 
     def output 
@@ -107,10 +111,9 @@ class MessageByContentProcessor
     def process_total_word_count(message)
         return if message.nil?
         @total_word_count += message.split(" ").length
-    end
-
-   
+    end   
 end
+
 class MessageByDateProcessor 
     attr_reader :messages_by_date
     def initialize 
