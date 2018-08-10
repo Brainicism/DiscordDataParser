@@ -1,4 +1,6 @@
 require_relative '../utils'
+require_relative '../processors/message_content_processor'
+require_relative '../processors/message_by_date_processor'
 class MessagesAnalyzer
     attr_reader :path, :message_by_content_processor, :message_by_date_processor
 
@@ -71,80 +73,5 @@ class MessagesAnalyzer
             message_by_content_processor.process(line)
             message_by_date_processor.process(line)
         end
-    end
-end
-
-class MessageByContentProcessor
-    def initialize
-        @commonly_used_words = Hash.new(0)
-        @messages_per_thread = Hash.new
-        @total_message_count = 0
-        @total_word_count = 0
-    end
-
-    def process(line)
-        process_total_word_count(line[:message])
-        process_commonly_used_words(line[:message])
-    end
-
-    def process_messages_by_thread(lines, thread_name)
-        @messages_per_thread[thread_name] = lines.length
-        @total_message_count += lines.length
-    end
-
-    def output(days_spent_on_discord)
-        {
-            commonly_used_words: @commonly_used_words.select{|word, count| count >= 10}.sort_by{|word, count| count}.reverse,
-            per_thread: @messages_per_thread.sort_by{|thread_name, count| count}.reverse,
-            average_words_per_message: (@total_word_count.to_f/@total_message_count).round(2),
-            average_messages_per_day: (@total_message_count.to_f/days_spent_on_discord).round(2),
-            total_message_count: @total_message_count
-        }
-    end
-
-    private
-    def process_commonly_used_words(message)
-        return if message.nil?
-        @commonly_used_words[message.strip.downcase] += 1
-    end
-
-    def process_total_word_count(message)
-        return if message.nil?
-        @total_word_count += message.split(" ").length
-    end   
-end
-
-class MessageByDateProcessor 
-    attr_reader :messages_by_date
-    def initialize 
-        @messages_by_date = Hash.new(0)
-        @message_by_time_of_day = Hash.new(0)
-        @message_by_day_of_week = Hash.new(0)
-    end
-
-    def process(line)
-        process_message_by_time_of_day(line[:date_time])
-        process_message_by_day_of_week(line[:date_time])
-        process_messages_by_date(line[:date_time])
-    end
-
-    def process_messages_by_date(time)
-        @messages_by_date[time.strftime(Utils::DATE_FORMAT)] += 1
-    end
-
-    def process_message_by_time_of_day(time) 
-        @message_by_time_of_day[time.strftime(Utils::TIME_OF_DAY_FORMAT)] += 1
-    end
-
-    def process_message_by_day_of_week(time) 
-        @message_by_day_of_week[time.strftime(Utils::DAY_OF_WEEK_FORMAT).to_i] += 1
-    end
-
-    def output
-        {
-            by_date: @messages_by_date.sort_by{|date, count| date}.reverse,
-            by_time_of_day: @message_by_time_of_day.sort_by{|hour, count| hour}.map{|hour, count| [Utils::convert_24h_to_12h(hour), count]},
-            by_day_of_week: @message_by_day_of_week.sort_by{|day, count| day}.map{|day, count| [Date::DAYNAMES[day], count]},
-        }
     end
 end
