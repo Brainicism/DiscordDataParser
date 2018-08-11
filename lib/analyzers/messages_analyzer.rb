@@ -50,6 +50,10 @@ class MessagesAnalyzer
     end
 
     private 
+    def processors
+        [message_by_content_processor, message_by_date_processor]
+    end
+
     def parse_message_file(file_path, thread_name)
         csv_lines = Utils::read_csv_from_file(file_path)
         csv_lines.shift
@@ -71,8 +75,7 @@ class MessagesAnalyzer
     def new_data(lines, thread_name)
         message_by_content_processor.process_messages_by_thread(lines, thread_name)
         lines.each do |line|
-            message_by_content_processor.process(line)
-            message_by_date_processor.process(line)
+            processors.each{|processor| processor.process(line)}
         end
     end
 end

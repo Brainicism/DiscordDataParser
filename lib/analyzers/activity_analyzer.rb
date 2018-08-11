@@ -28,12 +28,7 @@ class ActivityAnalyzer
             puts "Progress: #{index}/#{Utils::get_num_of_files(path)} (#{activity_log})"
             Utils::parse_funky_new_line_json_array("#{path}/#{activity_log}") do |parsed_activity_line|
                 event_type = parsed_activity_line['event_type']
-                verify_events_processor.process(event_type)
-                next if verify_events?
-                session_processor.process(parsed_activity_line, event_type) if ['session_end', 'session_start', 'app_opened'].include? event_type
-                reaction_processor.process(parsed_activity_line, event_type) if ['add_reaction', 'remove_reaction'].include? event_type
-                game_processor.process(parsed_activity_line, event_type) if ['launch_game', 'game_opened'].include? event_type
-                voice_processor.process(parsed_activity_line) if ['join_voice_channel'].include? event_type
+                processors.each{|processor| processor.process(parsed_activity_line, event_type)}
             end
         end
         @end_time = Time.now
@@ -62,6 +57,14 @@ class ActivityAnalyzer
     end
 
     private
+    def processors
+        if verify_events?
+            return [verify_events_processor]
+        else
+            return [session_processor, reaction_processor, game_processor, voice_processor]
+        end
+    end
+
     def output 
         [verify_events_processor.output] if verify_events?
         [session_processor.output, reaction_processor.output, game_processor.output, voice_processor.output, verify_events_processor.output].reduce({}, :merge)

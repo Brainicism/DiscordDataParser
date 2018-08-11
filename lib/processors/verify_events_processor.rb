@@ -5,7 +5,7 @@ class VerifyEventsProcessor
         @verify = verify
     end
 
-    def process(event_type)
+    def process(activity, event_type)
         return unless @update || @verify
         @event_list << event_type if !@event_list.include? event_type
     end
@@ -29,7 +29,7 @@ class VerifyEventsProcessor
         end
 
         if @verify
-            puts "New event_types found.\nCheck if the new events have any interesting details, then re-run with --update-events to update the current event list.\n #{new_events}" 
+            puts "New event_types found.\nCheck if the new events have any interesting details, then re-run with --update-events to update the current event list.\n#{new_events}" 
             exit
         end
     end

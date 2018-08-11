@@ -4,6 +4,7 @@ class GameProcessor
     end
 
     def process(activity, event_type) 
+        return unless ['launch_game', 'game_opened'].include? event_type
         case event_type
         when 'launch_game'
             game = activity['game']
