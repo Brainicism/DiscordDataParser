@@ -7,7 +7,7 @@
 ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
 
-An executable version can also be found [here](bin/app.exe). Simply execute it in the backup folder.
+An executable version can also be found [here](https://github.com/Brainicism/DiscordDataParser/raw/master/bin/app.exe). Simply execute it in the backup folder.
 
 The following .csv files are generated with the processed data:
 - Messages by day
