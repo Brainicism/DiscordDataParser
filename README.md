@@ -1,6 +1,7 @@
 
 ![demo](/examples/messages.png)
 ![demo](/examples/sessions.png)
+![demo](/examples/words_by_usage.png)
 
 # Usage
 ```
