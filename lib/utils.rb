@@ -43,6 +43,15 @@ class Utils
             Dir.entries(path).select {|entry| File.file? File.join(path, entry) and !(entry =='.' || entry == '..') }.length
         end
 
+        def write_output_txt(output, directory, file_name)
+            output_file = "#{file_name}.txt"
+            dir_path = "#{OUTPUT_PATH}/#{directory}"
+            FileUtils.mkdir_p dir_path
+            File.open("#{dir_path}/#{output_file}", 'w') do |file| 
+                file.write(output)
+            end
+        end
+    
         def write_output_csv(output, directory, type)
             if !output.key? type
                 puts "Could not find output key: #{type}"

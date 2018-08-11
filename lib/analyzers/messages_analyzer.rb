@@ -1,13 +1,16 @@
 require_relative '../utils'
 require_relative '../processors/message_content_processor'
 require_relative '../processors/message_by_date_processor'
+require_relative '../processors/message_prettifier_processor'
 class MessagesAnalyzer
-    attr_reader :path, :message_by_content_processor, :message_by_date_processor
+    attr_reader :path, :message_by_content_processor, :message_by_date_processor, :message_prettifier_processor
 
     def initialize(path, params)
         @path = path
+        @params = params
         @message_by_content_processor = MessageByContentProcessor.new
         @message_by_date_processor = MessageByDateProcessor.new
+        @message_prettifier_processor = MessagePrettifierProcessor.new
     end
 
     def call
@@ -19,7 +22,7 @@ class MessagesAnalyzer
         message_index.each_with_index do |(thread_id, thread_name), index|
             thread_name = thread_name.nil? ? 'unknown_user': thread_name
             puts "Progress: #{index + 1}/#{total_threads} (#{thread_name})"
-            parse_message_file("#{path}/#{thread_id}/messages.csv", thread_name)
+            parse_message_file("#{path}/#{thread_id}/messages.csv", thread_name, thread_id)
         end
         @end_time = Time.now
         puts "Finished parsing messages..."
@@ -29,7 +32,7 @@ class MessagesAnalyzer
     def results(output)
         output_files = []
         [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_words].each do |type|
-            Utils::write_output_csv(output, 'messages' ,type) {|output_file| output_files.push(output_file)}
+            Utils::write_output_csv(output, 'analyzed/messages' ,type) {|output_file| output_files.push(output_file)}
         end
         {
             output_files: output_files,
@@ -54,7 +57,11 @@ class MessagesAnalyzer
         [message_by_content_processor, message_by_date_processor]
     end
 
-    def parse_message_file(file_path, thread_name)
+    def processors_by_thread
+        [message_prettifier_processor, message_by_content_processor]
+    end
+
+    def parse_message_file(file_path, thread_name, thread_id)
         csv_lines = Utils::read_csv_from_file(file_path)
         csv_lines.shift
         csv_lines = csv_lines.map do |csv_line|
@@ -69,11 +76,11 @@ class MessagesAnalyzer
                 return {}
             end
         end
-        new_data(csv_lines, thread_name)
+        new_data(csv_lines, thread_name, thread_id)
     end
 
-    def new_data(lines, thread_name)
-        message_by_content_processor.process_messages_by_thread(lines, thread_name)
+    def new_data(lines, thread_name, thread_id)
+        processors_by_thread.each{|processor| processor.process_messages_by_thread(lines, thread_name, thread_id)}
         lines.each do |line|
             processors.each{|processor| processor.process(line)}
         end

@@ -11,7 +11,7 @@ class MessageByContentProcessor
         process_commonly_used_words(line[:message])
     end
 
-    def process_messages_by_thread(lines, thread_name)
+    def process_messages_by_thread(lines, thread_name, thread_id)
         @messages_per_thread[thread_name] = lines.length
         @total_message_count += lines.length
     end

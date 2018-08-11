@@ -32,6 +32,8 @@ The following information is shown:
 - Total number of reactions added/removed
 - Total number of voice channel joins
 
+Human readable versions of each message thread are also generated.
+
 # Requesting your data
 You can retrieve your past Discord messages by following the instructions in the article below.
 https://support.discordapp.com/hc/en-us/articles/360004027692

@@ -39,7 +39,7 @@ class ActivityAnalyzer
     def results(output)
         output_files = []
         [:games_play_count, :time_by_os, :time_by_location, :time_by_device, :reactions_by_use].each do |type|
-            Utils::write_output_csv(output, 'activity' , type) {|output_file| output_files.push(output_file)}
+            Utils::write_output_csv(output, 'analyzed/activity' , type) {|output_file| output_files.push(output_file)}
         end
         {
             output_files: output_files,
