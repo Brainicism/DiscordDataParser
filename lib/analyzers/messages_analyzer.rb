@@ -22,6 +22,7 @@ class MessagesAnalyzer
             parse_message_file("#{path}/#{thread_id}/messages.csv", thread_name)
         end
         @end_time = Time.now
+        puts "Finished parsing messages..."
         results(output)
     end
 

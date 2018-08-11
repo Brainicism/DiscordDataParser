@@ -30,8 +30,10 @@ class DiscordDataParser
             total[:output_strings] += output[:output_strings]
             total
         end
+        system "clear" or system "cls"
         puts "Files saved: [#{final_output[:output_files].map{|file| "\"#{file}\""  }.join(", ")}]"
         puts final_output[:output_strings].join("\n")
+        puts "Done!"
     end
 end
 

@@ -21,9 +21,11 @@ class ActivityAnalyzer
         raise "Directory doesn't exist\n" unless File.directory? path
         @start_time = Time.now
         puts 'Begin parsing activity...'
-        list = Hash.new(0)
+        index = 0
         Dir.foreach(path) do |activity_log| 
             next if activity_log == '.' or activity_log == '..'
+            index += 1
+            puts "Progress: #{index}/#{Utils::get_num_of_files(path)} (#{activity_log})"
             Utils::parse_funky_new_line_json_array("#{path}/#{activity_log}") do |parsed_activity_line|
                 event_type = parsed_activity_line['event_type']
                 verify_events_processor.process(event_type)
@@ -35,6 +37,7 @@ class ActivityAnalyzer
             end
         end
         @end_time = Time.now
+        puts 'Finished parsing activity...'
         results(output)
     end
 
