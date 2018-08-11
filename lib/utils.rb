@@ -45,9 +45,9 @@ class Utils
                 return
             end
             output_file = "#{type.to_s}.csv"
-            dir_path = "#{OUTPUT_PATH}/#{directory}/"
+            dir_path = "#{OUTPUT_PATH}/#{directory}"
             FileUtils.mkdir_p dir_path
-            CSV.open(dir_path + "#{output_file}", "w") do |csv|
+            CSV.open("#{dir_path}/#{output_file}", "w") do |csv|
                 output[type].each do |key, value|
                     csv << [key, value]
                 end
