@@ -1,5 +1,6 @@
 require 'json'
 require 'csv'
+require 'fileutils'
 class Utils
     OUTPUT_PATH = './output'
     TIME_FORMAT_24H = '%l:00 %p'
@@ -44,7 +45,9 @@ class Utils
                 return
             end
             output_file = "#{type.to_s}.csv"
-            CSV.open("#{OUTPUT_PATH}/#{directory}/#{output_file}", "w") do |csv|
+            dir_path = "#{OUTPUT_PATH}/#{directory}"
+            FileUtils.mkdir_p dir_path
+            CSV.open("#{dir_path}/#{output_file}", "w") do |csv|
                 output[type].each do |key, value|
                     csv << [key, value]
                 end
