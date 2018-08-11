@@ -1,4 +1,4 @@
-session_start
+dont_delete_me
 session_end
 send_message
 launch_game

@@ -4,7 +4,7 @@ require_relative '../processors/message_by_date_processor'
 class MessagesAnalyzer
     attr_reader :path, :message_by_content_processor, :message_by_date_processor
 
-    def initialize(path)
+    def initialize(path, params)
         @path = path
         @message_by_content_processor = MessageByContentProcessor.new
         @message_by_date_processor = MessageByDateProcessor.new

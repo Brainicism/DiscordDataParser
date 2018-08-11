@@ -7,13 +7,14 @@ require_relative '../processors/verify_events_processor'
 class ActivityAnalyzer
     attr_reader :path, :session_processor, :reaction_processor, :game_processor, :voice_processor, :verify_events_processor
     attr_accessor :games
-    def initialize(path, activity_analyzer_params)
+    def initialize(path, params)
+        @params = params
         @path = path
         @session_processor = SessionProcessor.new
         @reaction_processor = ReactionProcessor.new
         @game_processor = GameProcessor.new
         @voice_processor = VoiceProcessor.new
-        @verify_events_processor = VerifyEventsProcessor.new(activity_analyzer_params[:verify_events], activity_analyzer_params[:update_events])
+        @verify_events_processor = VerifyEventsProcessor.new(@params[:verify_events], @params[:update_events])
     end
 
     def call
@@ -25,11 +26,8 @@ class ActivityAnalyzer
             next if activity_log == '.' or activity_log == '..'
             Utils::parse_funky_new_line_json_array("#{path}/#{activity_log}") do |parsed_activity_line|
                 event_type = parsed_activity_line['event_type']
-
-                if event_type == 'user_avatar_updated'
-                    list[Time.parse(parsed_activity_line['timestamp'])] = parsed_activity_line['event_id']
-                end
                 verify_events_processor.process(event_type)
+                next if verify_events?
                 session_processor.process(parsed_activity_line, event_type) if ['session_end', 'session_start', 'app_opened'].include? event_type
                 reaction_processor.process(parsed_activity_line, event_type) if ['add_reaction', 'remove_reaction'].include? event_type
                 game_processor.process(parsed_activity_line, event_type) if ['launch_game', 'game_opened'].include? event_type
@@ -38,10 +36,6 @@ class ActivityAnalyzer
         end
         @end_time = Time.now
         results(output)
-    end
-
-    def output 
-        [session_processor.output, reaction_processor.output, game_processor.output, voice_processor.output, verify_events_processor.output].reduce({}, :merge)
     end
 
     def results(output)
@@ -63,5 +57,16 @@ class ActivityAnalyzer
             ]
         }
     end
+
+    private
+    def output 
+        [verify_events_processor.output] if verify_events?
+        [session_processor.output, reaction_processor.output, game_processor.output, voice_processor.output, verify_events_processor.output].reduce({}, :merge)
+    end
+ 
+    def verify_events? 
+        @params[:verify_events] || @params[:update_events]
+    end
+
 end
 
