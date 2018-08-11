@@ -1,22 +1,24 @@
 require_relative 'lib/analyzers/messages_analyzer'
 require_relative 'lib/analyzers/activity_analyzer'
 require_relative 'lib/utils'
+require_relative 'lib/arg_parser'
 require 'time'
 
 class DiscordDataParser
     def initialize
-        if ARGV[0].nil?
+        params = ArgParser.parse(ARGV)
+        if params[:data_path].nil?
             puts "Defaulting to data directory ./data..."
             data_path = './data'.freeze
         else
-            data_path = ARGV[0].freeze
+            data_path = params[:data_path]
         end
         messages_path = "#{data_path}/messages"
         activity_path = "#{data_path}/activity/analytics"
         @message_analyzer = MessagesAnalyzer.new(messages_path)
         activity_analyzer_params = {}
-        activity_analyzer_params[:verify_events] = true if ARGV.include? '--verify-events'
-        activity_analyzer_params[:update_events] = true if ARGV.include? '--update-events'
+        activity_analyzer_params[:verify_events] = true if params[:verify_events]
+        activity_analyzer_params[:update_events] = true if params[:update_events]
         @activity_analyzer = ActivityAnalyzer.new(activity_path, activity_analyzer_params)
     end
     

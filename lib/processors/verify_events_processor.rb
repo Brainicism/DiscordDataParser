@@ -12,7 +12,6 @@ class VerifyEventsProcessor
 
     def output
         return {} unless @update || @verify
-
         old_event_list = File.read('event_list.txt').split("\n")
         new_events = @event_list - old_event_list
         return {} if new_events.length == 0
