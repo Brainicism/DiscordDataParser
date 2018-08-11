@@ -8,8 +8,8 @@ class DiscordDataParser
     def initialize
         @params = ArgParser.parse(ARGV)
         if @params[:data_path].nil?
-            puts "Defaulting to data directory ./data..."
-            data_path = './data'.freeze
+            puts "Defaulting to data directory ./"
+            data_path = './'.freeze
         else
             data_path = @params[:data_path]
         end
