@@ -10,7 +10,7 @@ class Utils
     DATE_FORMAT = '%F'
     DAY_OF_WEEK_FORMAT = '%w'
     TIMEZONE = Time.now.zone.freeze
-    HTML_PATH = './output/index.html'
+    HTML_PATH = 'output/index.html'
     class << self
         def parse_funky_new_line_json_array(path)
             File.foreach(path) do |json_line|
@@ -73,7 +73,7 @@ class Utils
 
         def open_html_graphs
             if OS.windows?
-                `explorer file://#{HTML_PATH}`
+                `explorer file://#{File.expand_path("../#{HTML_PATH}", File.dirname(__FILE__))}`
             elsif OS.mac?
                 `open #{HTML_PATH}`
             elsif OS.unix? || OS.linux?

@@ -1,6 +1,6 @@
 module OS
     def OS.windows?
-        (/"cygwin"|"mswin"|"mingw"|"bccwin"|"wince"|"emx"/ =~ RUBY_PLATFORM) != nil
+        (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
     end
 
     def OS.mac?
