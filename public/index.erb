@@ -1,0 +1,42 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
+<script>
+var output = <%= @anime %>;
+var byDateData = output.by_date
+console.log(byDateData)
+var labels = byDateData.map((obj) => obj[0])
+var values = byDateData.map((obj) => obj[1])
+console.log(labels, values)
+console.log(document)
+
+window.onload = function() {
+    console.log("oad")
+  var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'area',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Messages Per Day',
+            data: values,
+            backgroundColor: 'rgba(255, 99, 132,1 )',
+            foregroundColor: 'rgba(255, 99, 132, 1)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+}
+
+</script>
+
+<canvas id="myChart" width="400" height="400"></canvas>

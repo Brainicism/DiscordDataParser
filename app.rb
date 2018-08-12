@@ -2,8 +2,9 @@ require_relative 'lib/analyzers/messages_analyzer'
 require_relative 'lib/analyzers/activity_analyzer'
 require_relative 'lib/utils'
 require_relative 'lib/arg_parser'
+require_relative 'lib/result_renderer'
 require 'time'
-
+require 'erb'
 class DiscordDataParser
     def initialize
         @params = ArgParser.parse(ARGV)
@@ -25,11 +26,15 @@ class DiscordDataParser
         else
             analyzers = [@message_analyzer, @activity_analyzer]
         end
-        final_output = analyzers.map{|analyzer| analyzer.call}.reduce({output_files: [], output_strings: []}) do |total, output|
+        final_output = analyzers.map{|analyzer| analyzer.call}.reduce({output_files: [], output_strings: [], output_raw: {}}) do |total, output|
             total[:output_files] += output[:output_files]
             total[:output_strings] += output[:output_strings]
+            total[:output_raw].merge!(output[:output_raw])
             total
         end
+        puts final_output[:output_raw]
+        ResultRenderer.new(final_output[:output_raw]).render
+
         system "clear" or system "cls"
         puts "Files saved: [#{final_output[:output_files].map{|file| "\"#{file}\""  }.join(", ")}]"
         puts "Prettified message files saved: output/prettified/messages"

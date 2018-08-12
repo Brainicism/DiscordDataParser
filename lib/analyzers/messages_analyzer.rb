@@ -20,6 +20,7 @@ class MessagesAnalyzer
         @start_time = Time.now
         puts 'Begin parsing messages...'
         message_index.each_with_index do |(thread_id, thread_name), index|
+            break if index > 20
             thread_name = thread_name.nil? ? 'unknown_user': thread_name
             puts "Progress: #{index + 1}/#{total_threads} (#{thread_name})"
             parse_message_file("#{path}/#{thread_id}/messages.csv", thread_name, thread_id)
@@ -44,7 +45,8 @@ class MessagesAnalyzer
                "Average messages per day: #{output[:average_messages_per_day]}",
                "Most used word: #{output[:commonly_used_words][0]}",
                "Most active thread: #{output[:per_thread][0]}\n"
-            ]
+            ],
+            output_raw: output
         }
     end
 

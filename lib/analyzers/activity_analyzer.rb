@@ -25,6 +25,7 @@ class ActivityAnalyzer
         Dir.foreach(path) do |activity_log| 
             next if activity_log == '.' or activity_log == '..'
             index += 1
+            break if index == 2
             puts "Progress: #{index}/#{Utils::get_num_of_files(path)} (#{activity_log})"
             Utils::parse_funky_new_line_json_array("#{path}/#{activity_log}") do |parsed_activity_line|
                 event_type = parsed_activity_line['event_type']
@@ -52,7 +53,8 @@ class ActivityAnalyzer
                "Total Reactions Added: #{output[:total_reactions_added]}",
                "Total Reactions Removed: #{output[:total_reactions_removed]}",
                "Total Voice Channels Joined: #{output[:total_voice_channel_connections]}\n"
-            ]
+            ],
+            output_raw: output
         }
     end
 
