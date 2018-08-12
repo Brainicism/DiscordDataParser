@@ -21,17 +21,33 @@ const createChart = (outputData, chartName, chartLabel) => {
             datasets: [{
                 label: chartLabel,
                 data: outputData.values,
-                backgroundColor: 'rgba(144, 137, 218, 0.5)',
-                foregroundColor: 'rgba(144, 137, 218, 0.5)',
-                borderColor: 'rgba(144, 137, 218, 0.5)',
+                backgroundColor: 'rgba(114, 137, 218, 0.5)',
+                foregroundColor: 'rgba(114, 137, 218, 0.5)',
+                borderColor: 'rgba(114, 137, 218, 0.5)',
                 borderWidth: 1
             }]
         },
         options: {
+            legend: {
+                labels: {
+                    fontColor: "white"
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        fontColor: "white"
+                    },
+                    gridLines: {
+                        color: 'rgba(153, 170, 181, 0.25)'
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontColor: "white"
+                    },
+                    gridLines: {
+                        color: 'rgba(153, 170, 181, 0.25)'
                     }
                 }]
             }
