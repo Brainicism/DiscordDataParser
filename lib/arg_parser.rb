@@ -2,6 +2,7 @@ class ArgParser
     ALLOWED_FLAGS = [
         {flag: '--update-events', param_key: :update_events},
         {flag: '--verify-events', param_key: :verify_events},
+        {flag: '--quick-run', param_key: :quick_run},
         {flag: '--prettify-messages', param_key: :prettify_messages}]
     ALLOWED_FLAGS_WITH_ARG = [{flag: '--data-path=', param_key: :data_path}]
     class << self
@@ -20,7 +21,6 @@ class ArgParser
                     args.delete(flag_with_arg)
                 end
             end
-           
             raise "Unknown flags: #{args.join(", ")}" unless args.empty?
             parsed_params 
         end
