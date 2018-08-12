@@ -41,7 +41,7 @@ class DiscordDataParser
         puts final_output[:output_strings].join("\n")
         puts "Done!"
 
-		Utils::open_html_graphs()
+        Utils::open_html_graphs()
     end
 end
 
