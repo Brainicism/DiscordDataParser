@@ -24,11 +24,46 @@ class MessageByDateProcessor
         @message_by_day_of_week[time.strftime(Utils::DAY_OF_WEEK_FORMAT).to_i] += 1
     end
 
-    def output
+    def fill_messages_by_date 
+        #TODO: make more efficient
+        sorted = @messages_by_date.sort_by{|date, count| date} 
+        Date.parse(sorted.first[0]).upto(Date.parse(sorted.last[0])) do |date|
+            date = date.strftime(Utils::DATE_FORMAT)
+            found = sorted.find{|data| data[0] == date}
+            sorted.push [date, 0] if found.nil?
+        end
+        sorted = sorted.sort_by{|date, count| date}
+        @messages_by_date = sorted
+    end
+
+    def fill_messages_by_time_of_day
+        #TODO: make more efficient
+        sorted = @message_by_time_of_day.sort_by{|hour, count| hour} 
+        0.upto(23).map do |hour|
+           hour = hour < 10 ? "0#{hour}": "#{hour}"
+           found = sorted.find{|data| data[0] == hour}
+           sorted.push [hour, 0] if found.nil?
+        end
+        sorted = sorted.sort_by{|hour, count| hour}
+        @message_by_time_of_day = sorted
+    end
+
+    def fill_messages_by_day_of_week
+        #TODO: make more efficient
+        sorted = @message_by_day_of_week.sort_by{|day, count| day}
+        0.upto(6).map do |day|
+            found = sorted.find{|data| data[0] == day}
+            sorted.push [day, 0] if found.nil?
+        end
+        sorted = sorted.sort_by{|day, count| day}
+        @message_by_day_of_week = sorted
+    end
+
+    def output   
         {
-            by_date: @messages_by_date.sort_by{|date, count| date}.reverse,
-            by_time_of_day: @message_by_time_of_day.sort_by{|hour, count| hour}.map{|hour, count| [Utils::convert_24h_to_12h(hour), count]},
-            by_day_of_week: @message_by_day_of_week.sort_by{|day, count| day}.map{|day, count| [Date::DAYNAMES[day], count]},
+            by_date: fill_messages_by_date,
+            by_time_of_day: fill_messages_by_time_of_day,
+            by_day_of_week: fill_messages_by_day_of_week.map{|day, count| [Date::DAYNAMES[day], count]},
         }
     end
 end
