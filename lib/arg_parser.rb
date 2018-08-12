@@ -26,7 +26,7 @@ class ArgParser
         end
 
         def extract_argument(flag_with_arg, flag)
-            flag_with_arg.slice! "--data-path="
+            flag_with_arg.slice! flag
             flag_with_arg
         end
     end

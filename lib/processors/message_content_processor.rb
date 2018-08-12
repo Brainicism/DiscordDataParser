@@ -7,6 +7,7 @@ class MessageByContentProcessor
     end
 
     def process(line)
+        line[:message] = line[:message].force_encoding('UTF-8') if line[:message]
         process_total_word_count(line[:message])
         process_commonly_used_words(line[:message])
     end
