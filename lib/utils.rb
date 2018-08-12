@@ -2,6 +2,7 @@ require 'json'
 require 'csv'
 require 'fileutils'
 require_relative 'user_os.rb'
+
 class Utils
     OUTPUT_PATH = './output'
     TIME_FORMAT_24H = '%l:00 %p'
