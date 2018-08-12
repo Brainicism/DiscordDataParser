@@ -8,6 +8,7 @@ class Utils
     DATE_FORMAT = '%F'
     DAY_OF_WEEK_FORMAT = '%w'
     TIMEZONE = Time.now.zone.freeze
+	HTML_PATH = './output/index.html'
     class << self
         def parse_funky_new_line_json_array(path)
             File.foreach(path) do |json_line|
@@ -67,5 +68,33 @@ class Utils
             end
             yield "#{directory}/#{output_file}"
         end
+
+		module OS
+			def OS.windows?
+				(/"cygwin"|"mswin"|"mingw"|"bccwin"|"wince"|"emx"/ =~ RUBY_PLATFORM) != nil
+			end
+
+			def OS.mac?
+				(/darwin/ =~ RUBY_PLATFORM) != nil
+			end
+
+			def OS.unix?
+				!OS.windows?
+			end
+
+			def OS.linux?
+				OS.unix? and not OS.mac?
+			end
+		end
+
+		def open_html_graphs()
+			if OS.windows?
+				`explorer file://#{HTML_PATH}`
+			elsif OS.mac?
+				`open #{HTML_PATH}`
+			elsif OS.unix? || OS.linux?
+				`xdg-open #{HTML_PATH}`
+			end
+		end
     end
 end

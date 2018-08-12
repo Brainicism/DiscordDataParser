@@ -40,6 +40,8 @@ class DiscordDataParser
         puts "Prettified message files saved: output/prettified/messages"
         puts final_output[:output_strings].join("\n")
         puts "Done!"
+
+		Utils::open_html_graphs()
     end
 end
 

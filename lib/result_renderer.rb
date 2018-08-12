@@ -7,6 +7,6 @@ class ResultRenderer
 
     def render
         @anime = @output.to_json
-        File.open('woah.html', 'w') { |file| file.write(@template.result(binding)) }
+        File.open('output/index.html', 'w') { |file| file.write(@template.result(binding)) }
     end
 end
