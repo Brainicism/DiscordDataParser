@@ -1,6 +1,7 @@
 require 'json'
 require 'csv'
 require 'fileutils'
+require_relative 'user_os.rb'
 class Utils
     OUTPUT_PATH = './output'
     TIME_FORMAT_24H = '%l:00 %p'
@@ -69,25 +70,7 @@ class Utils
             yield "#{directory}/#{output_file}"
         end
 
-        module OS
-            def OS.windows?
-                (/"cygwin"|"mswin"|"mingw"|"bccwin"|"wince"|"emx"/ =~ RUBY_PLATFORM) != nil
-            end
-
-            def OS.mac?
-                (/darwin/ =~ RUBY_PLATFORM) != nil
-            end
-
-            def OS.unix?
-                !OS.windows?
-            end
-
-            def OS.linux?
-                OS.unix? and not OS.mac?
-            end
-        end
-
-        def open_html_graphs()
+        def open_html_graphs
             if OS.windows?
                 `explorer file://#{HTML_PATH}`
             elsif OS.mac?
