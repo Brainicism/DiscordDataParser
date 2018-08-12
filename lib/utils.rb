@@ -1,6 +1,8 @@
 require 'json'
 require 'csv'
 require 'fileutils'
+require_relative 'user_os.rb'
+
 class Utils
     OUTPUT_PATH = './output'
     TIME_FORMAT_24H = '%l:00 %p'
@@ -8,6 +10,7 @@ class Utils
     DATE_FORMAT = '%F'
     DAY_OF_WEEK_FORMAT = '%w'
     TIMEZONE = Time.now.zone.freeze
+    HTML_PATH = './output/index.html'
     class << self
         def parse_funky_new_line_json_array(path)
             File.foreach(path) do |json_line|
@@ -66,6 +69,16 @@ class Utils
                 end
             end
             yield "#{directory}/#{output_file}"
+        end
+
+        def open_html_graphs
+            if OS.windows?
+                `explorer file://#{HTML_PATH}`
+            elsif OS.mac?
+                `open #{HTML_PATH}`
+            elsif OS.unix? || OS.linux?
+                `xdg-open #{HTML_PATH}`
+            end
         end
     end
 end
