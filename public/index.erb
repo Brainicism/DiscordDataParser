@@ -3,40 +3,65 @@
 <script>
 var output = <%= @anime %>;
 var byDateData = output.by_date
-console.log(byDateData)
+var byDayOfWeekData = output.by_day_of_week
+var a = byDayOfWeekData.map((obj) => obj[0])
+var b = byDayOfWeekData.map((obj) => obj[1])
+
 var labels = byDateData.map((obj) => obj[0])
 var values = byDateData.map((obj) => obj[1])
-console.log(labels, values)
-console.log(document)
 
-window.onload = function() {
-    console.log("oad")
-  var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'area',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Messages Per Day',
-            data: values,
-            backgroundColor: 'rgba(255, 99, 132,1 )',
-            foregroundColor: 'rgba(255, 99, 132, 1)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
+
+const createChart = (outputData, chartName, chartLabel) => {
+    console.log(outputData)
+    var ctx = document.getElementById(chartName).getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: outputData.keys,
+            datasets: [{
+                label: chartLabel,
+                data: outputData.values,
+                backgroundColor: 'rgba(144, 137, 218, 0.5)',
+                foregroundColor: 'rgba(144, 137, 218, 0.5)',
+                borderColor: 'rgba(144, 137, 218, 0.5)',
+                borderWidth: 1
             }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
-    }
-});
-}
+    });
 
+  
+}
+  window.onload = function () {
+        createChart({ keys: labels, values }, "messagesByDay", "dab")
+        createChart({ keys: a, values: b }, "messagesByDayOfWeek", "dab")
+    }
 </script>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+<div class='chartRow'>
+    <div class='graph' ><canvas id="messagesByDay"></canvas></div>
+    <div class='graph' ><canvas id="messagesByDayOfWeek"></canvas></div>
+</div>
+<style>
+    .chartRow {
+        display: inline-flex;
+        width: 100%;
+    }
+
+    .graph {
+        display: inline;
+        width: 50%;
+    }
+
+    body {
+        background-color: #2C2F33;
+    }
+</style>
