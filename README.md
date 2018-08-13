@@ -1,7 +1,6 @@
 
-![demo](/examples/messages.png)
-![demo](/examples/sessions.png)
-![demo](/examples/words_by_usage.png)
+![demo](/examples/messages_by_date.png)
+![demo](/examples/os_device_words_location.png)
 
 # Usage
 ```
@@ -10,7 +9,9 @@ ruby app.rb --data-path=[PATH_TO_BACK_UP]
 
 An executable version can also be found [here](https://github.com/Brainicism/DiscordDataParser/raw/master/bin/app.exe). Simply execute it in the backup folder.
 
-The following .csv files are generated with the processed data:
+An HTML file is generated with various charts to display the processed data. 
+
+The following .csv files are also generated with the processed data:
 - Messages by day
 - Messages by day of week
 - Messages by time of day
