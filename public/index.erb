@@ -32,8 +32,8 @@ window.onload = function () {
 }
 
 const createChart = (outputData, dataKey, chartName, chartOptions) => {
-    let dataLabels = outputData[dataKey].map(data => data[0])
-    let dataValues = outputData[dataKey].map(data => data[1])
+    let dataLabels = outputData[dataKey].map(data => data[0]);
+    let dataValues = outputData[dataKey].map(data => data[1]);
     const ctx = document.getElementById(chartName).getContext('2d');
 
     if (chartName === "commonlyUsedWords" ||
