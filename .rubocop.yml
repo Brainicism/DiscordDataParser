@@ -22,3 +22,12 @@ Layout/IndentationWidth:
 
 Style/Documentation:
   Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false

@@ -6,26 +6,26 @@ const COLOR = {
     LABEL_GREY: 'rgba(180, 180, 180, 1)',
     GRID_GREY: 'rgba(153, 170, 181, 0.25)',
     BLURPLE: 'rgba(114, 137, 218, 0.5)'
-}
+};
 window.onload = function () {
     const output = <%= @output %>;
-    createChart(output, 'by_date', "messagesByDay", { title: "Messages By Date", xAxisTitle: 'Date', yAxisTitle: 'Number of Messages', type: 'line' })
-    createChart(output, 'by_day_of_week', "messagesByDayOfWeek", { title: "Messages by Day of Week", xAxisTitle: 'Day of Week', yAxisTitle: 'Number of Messages', type: 'bar' })
-    createChart(output, 'by_time_of_day', "messagesByTimeOfDay", { title: "Messages by Time of Day", xAxisTitle: 'Time of Day', yAxisTitle: 'Number of Messages', type: 'bar' })
-    createChart(output, 'commonly_used_words', "commonlyUsedWords", { title: "Commonly Used Words", xAxisTitle: 'Word', yAxisTitle: 'Number of Occurences', type: 'bar' })
-    createChart(output, 'per_thread', "perThread", { title: "Most Active Threads", xAxisTitle: 'Thread Name', yAxisTitle: 'Number of Messages', type: 'bar' })
-    createChart(output, 'time_by_os', "timeByOS", { title: "Time Spent By OS", xAxisTitle: 'OS', yAxisTitle: 'Time Spent (minutes)', type: 'bar' })
-    createChart(output, 'time_by_location', "timeByLocation", { title: "Time Spent By Location", xAxisTitle: 'Location', yAxisTitle: 'Time Spent (minutes)', type: 'bar' })
-    createChart(output, 'time_by_device', "timeByDevice", { title: "Time Spent By Device", xAxisTitle: 'Device', yAxisTitle: 'Time Spent (minutes)', type: 'bar' })
-    createChart(output, 'reactions_by_use', "reactionsByUse", { title: "Reactions By Use", xAxisTitle: 'Reaction', yAxisTitle: 'Number of Occurences', type: 'bar' })
-    createChart(output, 'games_play_count', "gamesPlayCount", { title: "Game Play Count", xAxisTitle: 'Game', yAxisTitle: 'Play Count', type: 'bar' })
-}
+    createChart(output, 'by_date', "messagesByDay", { title: "Messages By Date", xAxisTitle: 'Date', yAxisTitle: 'Number of Messages', type: 'line' });
+    createChart(output, 'by_day_of_week', "messagesByDayOfWeek", { title: "Messages by Day of Week", xAxisTitle: 'Day of Week', yAxisTitle: 'Number of Messages', type: 'bar' });
+    createChart(output, 'by_time_of_day', "messagesByTimeOfDay", { title: "Messages by Time of Day", xAxisTitle: 'Time of Day', yAxisTitle: 'Number of Messages', type: 'bar' });
+    createChart(output, 'commonly_used_words', "commonlyUsedWords", { title: "Commonly Used Words", xAxisTitle: 'Word', yAxisTitle: 'Number of Occurrences', type: 'bar' });
+    createChart(output, 'per_thread', "perThread", { title: "Most Active Threads", xAxisTitle: 'Thread Name', yAxisTitle: 'Number of Messages', type: 'bar' });
+    createChart(output, 'time_by_os', "timeByOS", { title: "Time Spent By OS", xAxisTitle: 'OS', yAxisTitle: 'Time Spent (minutes)', type: 'bar' });
+    createChart(output, 'time_by_location', "timeByLocation", { title: "Time Spent By Location", xAxisTitle: 'Location', yAxisTitle: 'Time Spent (minutes)', type: 'bar' });
+    createChart(output, 'time_by_device', "timeByDevice", { title: "Time Spent By Device", xAxisTitle: 'Device', yAxisTitle: 'Time Spent (minutes)', type: 'bar' });
+    createChart(output, 'reactions_by_use', "reactionsByUse", { title: "Reactions By Use", xAxisTitle: 'Reaction', yAxisTitle: 'Number of Occurrences', type: 'bar' });
+    createChart(output, 'games_play_count', "gamesPlayCount", { title: "Game Play Count", xAxisTitle: 'Game', yAxisTitle: 'Play Count', type: 'bar' });
+};
 
 const createChart = (outputData, dataKey, chartName, chartOptions) => {
-    const dataLabels = outputData[dataKey].map(data => data[0])
-    const dataValues = outputData[dataKey].map(data => data[1])
+    const dataLabels = outputData[dataKey].map(data => data[0]);
+    const dataValues = outputData[dataKey].map(data => data[1]);
     const ctx = document.getElementById(chartName).getContext('2d');
-    const myChart = new Chart(ctx, {
+    new Chart(ctx, {
         type: chartOptions.type,
         data: {
             labels: dataLabels,

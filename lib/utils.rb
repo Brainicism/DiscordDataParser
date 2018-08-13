@@ -36,11 +36,11 @@ class Utils
         end
 
         def get_num_of_directories(path)
-            Dir.entries(path).select { |entry| File.directory? File.join(path, entry) and !(['.', '..'].include? entry) }.length
+            Dir.entries(path).select { |entry| (File.directory? File.join(path, entry)) && !(['.', '..'].include? entry) }.length
         end
 
         def get_num_of_files(path)
-            Dir.entries(path).select { |entry| File.file? File.join(path, entry) and !(['.', '..'].include? entry) }.length
+            Dir.entries(path).select { |entry| (File.file? File.join(path, entry)) && !(['.', '..'].include? entry) }.length
         end
 
         def write_output_txt(output, directory, file_name)
@@ -60,7 +60,7 @@ class Utils
             output_file = "#{type}.csv"
             dir_path = "#{OUTPUT_PATH}/#{directory}"
             FileUtils.mkdir_p dir_path
-            CSV.open("#{dir_path}/#{output_file}", "w") do |csv|
+            CSV.open("#{dir_path}/#{output_file}", 'w') do |csv|
                 output[type].each do |key, value|
                     csv << [key, value]
                 end
