@@ -70,7 +70,8 @@ class Utils
 
         def open_html_graphs
             if OS.windows?
-                `explorer file://#{File.expand_path("../#{HTML_PATH}", File.dirname(__FILE__))}`
+                `explorer file://#{File.expand_path("#{HTML_PATH}", File.dirname(ENV["OCRA_EXECUTABLE"]))}` if ENV["OCRA_EXECUTABLE"]
+                `explorer file://#{File.expand_path("../#{HTML_PATH}", File.dirname(__FILE__))}` unless ENV["OCRA_EXECUTABLE"]
             elsif OS.mac?
                 `open #{HTML_PATH}`
             elsif OS.unix? || OS.linux?

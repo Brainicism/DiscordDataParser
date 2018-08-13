@@ -8,7 +8,9 @@ require 'erb'
 class DiscordDataParser
     def initialize
         @params = ArgParser.parse(ARGV)
-        if @params[:data_path].nil?
+        if defined?(Ocra)
+            data_path = './data'.freeze
+        elsif @params[:data_path].nil?
             puts 'Defaulting to data directory ./'
             data_path = './'.freeze
         else
