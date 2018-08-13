@@ -13,7 +13,7 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Layout/EndOfLine
+Layout/EndOfLine:
   Enabled: false
 
 Layout/IndentationWidth:

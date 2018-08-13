@@ -63,7 +63,7 @@ class MessageByDateProcessor
     def output
         {
             by_date: fill_messages_by_date,
-            by_time_of_day: fill_messages_by_time_of_day,
+            by_time_of_day: fill_messages_by_time_of_day.map { |hour, count| [Utils::convert_24h_to_12h(hour), count] },
             by_day_of_week: fill_messages_by_day_of_week.map { |day, count| [Date::DAYNAMES[day], count] }
         }
     end

@@ -14,9 +14,9 @@ class DiscordDataParser
         else
             data_path = @params[:data_path]
         end
-        messages_path      = "#{data_path}/messages"
-        activity_path      = "#{data_path}/activity/analytics"
-        @message_analyzer  = MessagesAnalyzer.new(messages_path, @params)
+        messages_path = "#{data_path}/messages"
+        activity_path = "#{data_path}/activity/analytics"
+        @message_analyzer = MessagesAnalyzer.new(messages_path, @params)
         @activity_analyzer = ActivityAnalyzer.new(activity_path, @params)
     end
 
@@ -27,7 +27,7 @@ class DiscordDataParser
             analyzers = [@message_analyzer, @activity_analyzer]
         end
         final_output = analyzers.map(&:call).each_with_object(output_files: [], output_strings: [], output_raw: {}) do |output, total|
-            total[:output_files]   += output[:output_files]
+            total[:output_files] += output[:output_files]
             total[:output_strings] += output[:output_strings]
             total[:output_raw].merge!(output[:output_raw])
         end
