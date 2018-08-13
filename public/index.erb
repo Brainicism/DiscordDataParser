@@ -5,77 +5,147 @@ const COLOR = {
     WHITE: 'white',
     LABEL_GREY: 'rgba(180, 180, 180, 1)',
     GRID_GREY: 'rgba(153, 170, 181, 0.25)',
-    BLURPLE: 'rgba(114, 137, 218, 0.5)'
-};
+    BLURPLE: 'rgba(114, 137, 218, 0.5)',
+    BLURPLE_SCHEME: ['rgba(16, 26, 61, 0.5)',
+                        'rgba(26, 43, 102, 0.5)',
+                        'rgba(37, 60, 142, 0.5)',
+                        'rgba(48, 77, 182, 0.5)',
+                        'rgba(74, 103, 207, 0.5)',
+                        'rgba(114, 137, 218, 0.5)',
+                        'rgba(154, 171, 229, 0.5)',
+                        'rgba(195, 205, 239, 0.5)',
+                        'rgba(235, 239, 250, 0.5)',
+                        'rgba(255, 255, 255, 0.5)']
+}
 window.onload = function () {
     const output = <%= @output %>;
-    createChart(output, 'by_date', "messagesByDay", { title: "Messages By Date", xAxisTitle: 'Date', yAxisTitle: 'Number of Messages', type: 'line' });
-    createChart(output, 'by_day_of_week', "messagesByDayOfWeek", { title: "Messages by Day of Week", xAxisTitle: 'Day of Week', yAxisTitle: 'Number of Messages', type: 'bar' });
-    createChart(output, 'by_time_of_day', "messagesByTimeOfDay", { title: "Messages by Time of Day", xAxisTitle: 'Time of Day', yAxisTitle: 'Number of Messages', type: 'bar' });
-    createChart(output, 'commonly_used_words', "commonlyUsedWords", { title: "Commonly Used Words", xAxisTitle: 'Word', yAxisTitle: 'Number of Occurrences', type: 'bar' });
-    createChart(output, 'per_thread', "perThread", { title: "Most Active Threads", xAxisTitle: 'Thread Name', yAxisTitle: 'Number of Messages', type: 'bar' });
-    createChart(output, 'time_by_os', "timeByOS", { title: "Time Spent By OS", xAxisTitle: 'OS', yAxisTitle: 'Time Spent (minutes)', type: 'bar' });
-    createChart(output, 'time_by_location', "timeByLocation", { title: "Time Spent By Location", xAxisTitle: 'Location', yAxisTitle: 'Time Spent (minutes)', type: 'bar' });
-    createChart(output, 'time_by_device', "timeByDevice", { title: "Time Spent By Device", xAxisTitle: 'Device', yAxisTitle: 'Time Spent (minutes)', type: 'bar' });
-    createChart(output, 'reactions_by_use', "reactionsByUse", { title: "Reactions By Use", xAxisTitle: 'Reaction', yAxisTitle: 'Number of Occurrences', type: 'bar' });
-    createChart(output, 'games_play_count', "gamesPlayCount", { title: "Game Play Count", xAxisTitle: 'Game', yAxisTitle: 'Play Count', type: 'bar' });
-};
+    createChart(output, 'by_date', "messagesByDay", { title: "Messages By Date", xAxisTitle: 'Date', yAxisTitle: 'Number of Messages', type: 'line' })
+    createChart(output, 'by_day_of_week', "messagesByDayOfWeek", { title: "Messages by Day of Week", xAxisTitle: 'Day of Week', yAxisTitle: 'Number of Messages', type: 'bar' })
+    createChart(output, 'by_time_of_day', "messagesByTimeOfDay", { title: "Messages by Time of Day", xAxisTitle: 'Time of Day', yAxisTitle: 'Number of Messages', type: 'bar' })
+    createChart(output, 'commonly_used_words', "commonlyUsedWords", { title: "Commonly Used Words", xAxisTitle: 'Word', yAxisTitle: 'Number of Occurences', type: 'bar' })
+    createChart(output, 'per_thread', "perThread", { title: "Most Active Threads", xAxisTitle: 'Thread Name', yAxisTitle: 'Number of Messages', type: 'bar' })
+    createChart(output, 'time_by_os', "timeByOS", { title: "Time Spent By OS", xAxisTitle: 'OS', yAxisTitle: 'Time Spent (minutes)', type: 'bar' })
+    createChart(output, 'time_by_location', "timeByLocation", { title: "Time Spent By Location", xAxisTitle: 'Location', yAxisTitle: 'Time Spent (minutes)', type: 'doughnut' })
+    createChart(output, 'time_by_device', "timeByDevice", { title: "Time Spent By Device", xAxisTitle: 'Device', yAxisTitle: 'Time Spent (minutes)', type: 'doughnut' })
+    createChart(output, 'reactions_by_use', "reactionsByUse", { title: "Reactions By Use", xAxisTitle: 'Reaction', yAxisTitle: 'Number of Occurences', type: 'bar' })
+    createChart(output, 'games_play_count', "gamesPlayCount", { title: "Game Play Count", xAxisTitle: 'Game', yAxisTitle: 'Play Count', type: 'bar' })
+}
 
 const createChart = (outputData, dataKey, chartName, chartOptions) => {
-    const dataLabels = outputData[dataKey].map(data => data[0]);
-    const dataValues = outputData[dataKey].map(data => data[1]);
+    let dataLabels = outputData[dataKey].map(data => data[0])
+    let dataValues = outputData[dataKey].map(data => data[1])
     const ctx = document.getElementById(chartName).getContext('2d');
-    new Chart(ctx, {
-        type: chartOptions.type,
-        data: {
-            labels: dataLabels,
-            datasets: [{
-                data: dataValues,
-                backgroundColor: COLOR.BLURPLE,
-                foregroundColor: COLOR.BLURPLE,
-                borderColor: COLOR.BLURPLE,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: chartOptions.title,
-                fontColor: COLOR.WHITE
-            },
-            legend: {
-                display: false
-            },
-            scales: {
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        fontColor: COLOR.WHITE,
-                        labelString: chartOptions.yAxisTitle
-                    },
-                    ticks: {
-                        fontColor: COLOR.LABEL_GREY
-                    },
-                    gridLines: {
-                        color: COLOR.GRID_GREY
-                    }
-                }],
-                xAxes: [{
-                    ticks: {
-                        fontColor: COLOR.LABEL_GREY
-                    },
-                    gridLines: {
-                        color: COLOR.GRID_GREY
-                    },
-                    scaleLabel: {
-                        fontColor: COLOR.WHITE,
-                        display: true,
-                        labelString: chartOptions.xAxisTitle
-                    }
+
+    if (chartName === "commonlyUsedWords" ||
+            chartName === "perThread" ||
+            chartName === "reactionsByUse" ||
+            chartName === "gamesPlayCount")
+        dataValues = dataValues.slice(0, 25);
+    else if (chartOptions.type === 'doughnut')
+        dataValues = dataValues.slice(0, 10);
+
+    // Shorten visible values/labels to improve chart readability
+
+    if (chartName === "commonlyUsedWords" ||
+            chartName === "perThread" ||
+            chartName === "reactionsByUse" ||
+            chartName === "gamesPlayCount")
+        dataLabels = dataLabels.slice(0, 25);
+    else if (chartOptions.type === 'doughnut')
+        dataLabels = dataLabels.slice(0, 10);
+
+    const x_axis_autoskip = (chartOptions) => {
+        if (chartOptions.type === 'line') return true;
+        else return false;
+    }
+
+    if (chartOptions.type === 'doughnut') {
+
+        // No axes for doughnut charts
+
+        const myChart = new Chart(ctx, {
+            type: chartOptions.type,
+            data: {
+                labels: dataLabels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: COLOR.BLURPLE_SCHEME,
+                    foregroundColor: COLOR.BLURPLE,
+                    borderColor: COLOR.BLURPLE,
+                    borderWidth: 1
                 }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: chartOptions.title,
+                    fontColor: COLOR.WHITE
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        fontColor: COLOR.WHITE,
+                        filter: (legendItem, chartData) => { return !legendItem.hidden; }
+                    }
+                }
             }
-        }
-    });
+        });
+    }
+    else {
+        const myChart = new Chart(ctx, {
+            type: chartOptions.type,
+            data: {
+                labels: dataLabels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: COLOR.BLURPLE,
+                    foregroundColor: COLOR.BLURPLE,
+                    borderColor: COLOR.BLURPLE,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: chartOptions.title,
+                    fontColor: COLOR.WHITE
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            fontColor: COLOR.WHITE,
+                            labelString: chartOptions.yAxisTitle
+                        },
+                        ticks: {
+                            fontColor: COLOR.LABEL_GREY
+                        },
+                        gridLines: {
+                            color: COLOR.GRID_GREY
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: COLOR.LABEL_GREY,
+                            autoSkip: x_axis_autoskip(chartOptions)
+                        },
+                        gridLines: {
+                            color: COLOR.GRID_GREY
+                        },
+                        scaleLabel: {
+                            fontColor: COLOR.WHITE,
+                            display: true,
+                            labelString: chartOptions.xAxisTitle
+                        }
+                    }]
+                }
+            }
+        });
+    }
 }
 </script>
 <body>
