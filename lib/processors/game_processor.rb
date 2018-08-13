@@ -1,9 +1,9 @@
-class GameProcessor 
-    def initialize 
+class GameProcessor
+    def initialize
         @games = Hash.new(0)
     end
 
-    def process(activity, event_type) 
+    def process(activity, event_type)
         return unless ['launch_game', 'game_opened'].include? event_type
         case event_type
         when 'launch_game'
@@ -16,7 +16,7 @@ class GameProcessor
 
     def output
         {
-            games_play_count: @games.sort_by{|game, count| count}.reverse,
+            games_play_count: @games.sort_by { |_game, count| count }.reverse
         }
     end
 end

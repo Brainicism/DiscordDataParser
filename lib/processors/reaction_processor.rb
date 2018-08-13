@@ -15,11 +15,11 @@ class ReactionProcessor
         end
     end
 
-    def output 
+    def output
         {
             total_reactions_added: @total_reactions_added,
             total_reactions_removed: @total_reactions_removed,
-            reactions_by_use: @reactions_count_hash.sort_by{|reaction, count| count}.reverse
+            reactions_by_use: @reactions_count_hash.sort_by { |_reaction, count| count }.reverse
         }
     end
 end
