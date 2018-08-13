@@ -1,5 +1,6 @@
 data/
 output/
+.idea/
 *.csv
 *.exe
 *.html

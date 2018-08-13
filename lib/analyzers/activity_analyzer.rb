@@ -7,6 +7,7 @@ require_relative '../processors/verify_events_processor'
 class ActivityAnalyzer
     attr_reader :path, :session_processor, :reaction_processor, :game_processor, :voice_processor, :verify_events_processor
     attr_accessor :games
+
     def initialize(path, params)
         @params = params
         @path = path
@@ -22,14 +23,14 @@ class ActivityAnalyzer
         @start_time = Time.now
         puts 'Begin parsing activity...'
         index = 0
-        Dir.foreach(path) do |activity_log| 
-            next if activity_log == '.' or activity_log == '..'
+        Dir.foreach(path) do |activity_log|
+            next if ['.', '..'].include? activity_log
             index += 1
             break if @params[:quick_run] == true && index == 2
-            puts "Progress: #{index}/#{Utils::get_num_of_files(path)} (#{activity_log})"
-            Utils::parse_funky_new_line_json_array("#{path}/#{activity_log}") do |parsed_activity_line|
+            puts "Progress: #{index}/#{Utils.get_num_of_files(path)} (#{activity_log})"
+            Utils.parse_funky_new_line_json_array("#{path}/#{activity_log}") do |parsed_activity_line|
                 event_type = parsed_activity_line['event_type']
-                processors.each{|processor| processor.process(parsed_activity_line, event_type)}
+                processors.each { |processor| processor.process(parsed_activity_line, event_type) }
             end
         end
         @end_time = Time.now
@@ -40,41 +41,40 @@ class ActivityAnalyzer
     def results(output)
         output_files = []
         [:games_play_count, :time_by_os, :time_by_location, :time_by_device, :reactions_by_use].each do |type|
-            Utils::write_output_csv(output, 'analyzed/activity' , type) {|output_file| output_files.push(output_file)}
+            Utils.write_output_csv(output, 'analyzed/activity', type) { |output_file| output_files.push(output_file) }
         end
         {
             output_files: output_files,
             output_strings: [
-               "Activity Analysis #{(@end_time - @start_time).round(1)}s",
-               "-----------------------------------",
-               "Total Sessions: #{output[:total_sessions]}",
-               "Average session length: #{output[:average_session_length]} minutes" ,
-               "App opened #{output[:total_app_open]} times",
-               "Total Reactions Added: #{output[:total_reactions_added]}",
-               "Total Reactions Removed: #{output[:total_reactions_removed]}",
-               "Total Voice Channels Joined: #{output[:total_voice_channel_connections]}\n"
+                "Activity Analysis #{(@end_time - @start_time).round(1)}s",
+                '-----------------------------------',
+                "Total Sessions: #{output[:total_sessions]}",
+                "Average session length: #{output[:average_session_length]} minutes",
+                "App opened #{output[:total_app_open]} times",
+                "Total Reactions Added: #{output[:total_reactions_added]}",
+                "Total Reactions Removed: #{output[:total_reactions_removed]}",
+                "Total Voice Channels Joined: #{output[:total_voice_channel_connections]}\n"
             ],
             output_raw: output
         }
     end
 
     private
+
     def processors
         if verify_events?
-            return [verify_events_processor]
+            [verify_events_processor]
         else
-            return [session_processor, reaction_processor, game_processor, voice_processor]
+            [session_processor, reaction_processor, game_processor, voice_processor]
         end
     end
 
-    def output 
+    def output
         [verify_events_processor.output] if verify_events?
         [session_processor.output, reaction_processor.output, game_processor.output, voice_processor.output, verify_events_processor.output].reduce({}, :merge)
     end
- 
-    def verify_events? 
+
+    def verify_events?
         @params[:verify_events] || @params[:update_events]
     end
-
 end
-

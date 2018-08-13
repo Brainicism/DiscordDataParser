@@ -4,13 +4,14 @@ require 'fileutils'
 require_relative 'user_os.rb'
 
 class Utils
-    OUTPUT_PATH = './output'
-    TIME_FORMAT_24H = '%l:00 %p'
-    TIME_OF_DAY_FORMAT = '%H'
-    DATE_FORMAT = '%F'
-    DAY_OF_WEEK_FORMAT = '%w'
+    OUTPUT_PATH = './output'.freeze
+    TIME_FORMAT_24H = '%l:00 %p'.freeze
+    TIME_OF_DAY_FORMAT = '%H'.freeze
+    DATE_FORMAT = '%F'.freeze
+    DAY_OF_WEEK_FORMAT = '%w'.freeze
     TIMEZONE = Time.now.zone.freeze
-    HTML_PATH = 'output/index.html'
+    HTML_PATH = 'output/index.html'.freeze
+
     class << self
         def parse_funky_new_line_json_array(path)
             File.foreach(path) do |json_line|
@@ -19,48 +20,44 @@ class Utils
         end
 
         def parse_json_from_file(path)
-            begin
-                JSON.parse(File.read(path))
-            rescue JSON::ParserError, Errno::ENOENT => e
-                raise "Could not parse #{path}. #{e.to_s[0..50]}\n"
-            end
+            JSON.parse(File.read(path))
+        rescue JSON::ParserError, Errno::ENOENT => e
+            raise "Could not parse #{path}. #{e.to_s[0..50]}\n"
         end
-    
+
         def read_csv_from_file(path)
-            begin
-                CSV.read(path)
-            rescue Errno::ENOENT
-                raise "Could not parse #{path}\n"
-            end
+            CSV.read(path)
+        rescue Errno::ENOENT
+            raise "Could not parse #{path}\n"
         end
-    
+
         def convert_24h_to_12h(hour)
             Time.parse("#{hour}:00").strftime(TIME_FORMAT_24H)
         end
-    
+
         def get_num_of_directories(path)
-            Dir.entries(path).select {|entry| File.directory? File.join(path, entry) and !(entry =='.' || entry == '..') }.length
+            Dir.entries(path).select { |entry| File.directory? File.join(path, entry) and !(['.', '..'].include? entry) }.length
         end
 
         def get_num_of_files(path)
-            Dir.entries(path).select {|entry| File.file? File.join(path, entry) and !(entry =='.' || entry == '..') }.length
+            Dir.entries(path).select { |entry| File.file? File.join(path, entry) and !(['.', '..'].include? entry) }.length
         end
 
         def write_output_txt(output, directory, file_name)
             output_file = "#{file_name}.txt"
             dir_path = "#{OUTPUT_PATH}/#{directory}"
             FileUtils.mkdir_p dir_path
-            File.open("#{dir_path}/#{output_file}", 'w') do |file| 
+            File.open("#{dir_path}/#{output_file}", 'w') do |file|
                 file.write(output)
             end
         end
-    
+
         def write_output_csv(output, directory, type)
-            if !output.key? type
+            unless output.key? type
                 puts "Could not find output key: #{type}"
                 return
             end
-            output_file = "#{type.to_s}.csv"
+            output_file = "#{type}.csv"
             dir_path = "#{OUTPUT_PATH}/#{directory}"
             FileUtils.mkdir_p dir_path
             CSV.open("#{dir_path}/#{output_file}", "w") do |csv|

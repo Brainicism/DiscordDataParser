@@ -1,8 +1,9 @@
 class ResultRenderer
     attr_reader :output
+
     def initialize(output)
         @output = output
-        @template = ERB.new File.read("public/index.erb"), nil, "%"
+        @template = ERB.new File.read('public/index.erb'), nil, '%'
     end
 
     def render
