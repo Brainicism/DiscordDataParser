@@ -22,13 +22,13 @@ window.onload = function () {
     createChart(output, 'by_date', "messagesByDay", { title: "Messages By Date", xAxisTitle: 'Date', yAxisTitle: 'Number of Messages', type: 'line' });
     createChart(output, 'by_day_of_week', "messagesByDayOfWeek", { title: "Messages by Day of Week", xAxisTitle: 'Day of Week', yAxisTitle: 'Number of Messages', type: 'bar' });
     createChart(output, 'by_time_of_day', "messagesByTimeOfDay", { title: "Messages by Time of Day", xAxisTitle: 'Time of Day', yAxisTitle: 'Number of Messages', type: 'bar' });
-    createChart(output, 'commonly_used_words', "commonlyUsedWords", { title: "Commonly Used Words", xAxisTitle: 'Word', yAxisTitle: 'Number of Occurrences', type: 'bar' });
-    createChart(output, 'per_thread', "perThread", { title: "Most Active Threads", xAxisTitle: 'Thread Name', yAxisTitle: 'Number of Messages', type: 'bar' });
+    createChart(output, 'commonly_used_words', "commonlyUsedWords", { title: "Commonly Used Words", xAxisTitle: 'Word', yAxisTitle: 'Number of Occurrences', type: 'bar', dataLimit: 25 });
+    createChart(output, 'per_thread', "perThread", { title: "Most Active Threads", xAxisTitle: 'Thread Name', yAxisTitle: 'Number of Messages', type: 'bar', dataLimit: 25 });
     createChart(output, 'time_by_os', "timeByOS", { title: "Time Spent By OS", xAxisTitle: 'OS', yAxisTitle: 'Time Spent (minutes)', type: 'bar' });
-    createChart(output, 'time_by_location', "timeByLocation", { title: "Time Spent By Location", xAxisTitle: 'Location', yAxisTitle: 'Time Spent (minutes)', type: 'doughnut' });
-    createChart(output, 'time_by_device', "timeByDevice", { title: "Time Spent By Device", xAxisTitle: 'Device', yAxisTitle: 'Time Spent (minutes)', type: 'doughnut' });
-    createChart(output, 'reactions_by_use', "reactionsByUse", { title: "Reactions By Use", xAxisTitle: 'Reaction', yAxisTitle: 'Number of Occurrences', type: 'bar' });
-    createChart(output, 'games_play_count', "gamesPlayCount", { title: "Game Play Count", xAxisTitle: 'Game', yAxisTitle: 'Play Count', type: 'bar' });
+    createChart(output, 'time_by_location', "timeByLocation", { title: "Time Spent By Location", xAxisTitle: 'Location', yAxisTitle: 'Time Spent (minutes)', type: 'doughnut', dataLimit: 10 });
+    createChart(output, 'time_by_device', "timeByDevice", { title: "Time Spent By Device", xAxisTitle: 'Device', yAxisTitle: 'Time Spent (minutes)', type: 'doughnut', dataLimit: 10 });
+    createChart(output, 'reactions_by_use', "reactionsByUse", { title: "Reactions By Use", xAxisTitle: 'Reaction', yAxisTitle: 'Number of Occurrences', type: 'bar', dataLimit: 25 });
+    createChart(output, 'games_play_count', "gamesPlayCount", { title: "Game Play Count", xAxisTitle: 'Game', yAxisTitle: 'Play Count', type: 'bar', dataLimit: 25 });
 }
 
 const createChart = (outputData, dataKey, chartName, chartOptions) => {
@@ -36,27 +36,20 @@ const createChart = (outputData, dataKey, chartName, chartOptions) => {
     let dataValues = outputData[dataKey].map(data => data[1]);
     const ctx = document.getElementById(chartName).getContext('2d');
 
-    if (chartName === "commonlyUsedWords" ||
-            chartName === "perThread" ||
-            chartName === "reactionsByUse" ||
-            chartName === "gamesPlayCount")
-        dataValues = dataValues.slice(0, 25);
-    else if (chartOptions.type === 'doughnut')
-        dataValues = dataValues.slice(0, 10);
+    dataValues = dataValues.slice(0, chartOptions.dataLimit);
 
     // Shorten visible values/labels to improve chart readability
 
-    if (chartName === "commonlyUsedWords" ||
-            chartName === "perThread" ||
-            chartName === "reactionsByUse" ||
-            chartName === "gamesPlayCount")
-        dataLabels = dataLabels.slice(0, 25);
-    else if (chartOptions.type === 'doughnut')
-        dataLabels = dataLabels.slice(0, 10);
+    dataLabels = dataLabels.slice(0, chartOptions.dataLimit);
 
-    const x_axis_autoskip = (chartOptions) => {
-        if (chartOptions.type === 'line') return true;
-        else return false;
+    const xAxisAutoskip = (chartOptions) => {
+
+        // When autoskipping is set to true in xAxes.ticks, some labels on the
+        //  x-axis are hidden for readability's sake. However, we only want this
+        //  to happen when we have a large amount of labels present (like in the
+        //  line chart).
+
+        return chartOptions.type === 'line';
     }
 
     if (chartOptions.type === 'doughnut') {
@@ -85,8 +78,7 @@ const createChart = (outputData, dataKey, chartName, chartOptions) => {
                     display: true,
                     position: 'right',
                     labels: {
-                        fontColor: COLOR.WHITE,
-                        filter: (legendItem, chartData) => { return !legendItem.hidden; }
+                        fontColor: COLOR.WHITE
                     }
                 }
             }
@@ -131,7 +123,7 @@ const createChart = (outputData, dataKey, chartName, chartOptions) => {
                     xAxes: [{
                         ticks: {
                             fontColor: COLOR.LABEL_GREY,
-                            autoSkip: x_axis_autoskip(chartOptions)
+                            autoSkip: xAxisAutoskip(chartOptions)
                         },
                         gridLines: {
                             color: COLOR.GRID_GREY
