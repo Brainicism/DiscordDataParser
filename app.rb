@@ -10,6 +10,7 @@ class DiscordDataParser
     def initialize
         @params = ArgParser.parse(ARGV)
         if defined?(Ocra)
+            @params[:quick_run] = true # ocra only runs app to check for dependencies, no need for full parse
             data_path = './data'.freeze
         elsif @params[:data_path].nil?
             puts 'Defaulting to data directory ./'
@@ -26,6 +27,11 @@ class DiscordDataParser
     end
 
     def call
+        if @params[:rebuild_binary]
+            exec 'ocra app.rb public/index.erb --output bin/app.exe'
+            puts 'Binary Updated'
+            return
+        end
         if @params[:verify_events] || @params[:update_events]
             analyzers = [@activity_analyzer]
         else
@@ -54,5 +60,5 @@ if $PROGRAM_NAME == __FILE__
     rescue StandardError => e
         puts e.to_s
     end
-    gets.chomp
+    gets.chomp unless defined?(Ocra)
 end

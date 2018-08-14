@@ -3,7 +3,7 @@ class ResultRenderer
 
     def initialize(output)
         @output = output
-        @template = ERB.new File.read('public/index.erb'), nil, '%'
+        @template = ERB.new File.read("#{File.expand_path("../public/index.erb", __dir__)}"), nil, '%'
     end
 
     def render
