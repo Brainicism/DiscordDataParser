@@ -7,7 +7,8 @@ class ResultRenderer
     end
 
     def render
-        @output = @output.to_json
+        @json_output = @output.to_json
+        @username = @output[:username]
         File.open('output/index.html', 'w') { |file| file.write(@template.result(binding)) }
     end
 end

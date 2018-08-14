@@ -1,5 +1,6 @@
 require_relative 'lib/analyzers/messages_analyzer'
 require_relative 'lib/analyzers/activity_analyzer'
+require_relative 'lib/analyzers/account_analyzer'
 require_relative 'lib/utils'
 require_relative 'lib/arg_parser'
 require_relative 'lib/result_renderer'
@@ -18,22 +19,23 @@ class DiscordDataParser
         end
         messages_path = "#{data_path}/messages"
         activity_path = "#{data_path}/activity/analytics"
+        account_path = "#{data_path}/account"
         @message_analyzer = MessagesAnalyzer.new(messages_path, @params)
         @activity_analyzer = ActivityAnalyzer.new(activity_path, @params)
+        @account_analyzer = AccountAnalyzer.new(account_path, @params)
     end
 
     def call
         if @params[:verify_events] || @params[:update_events]
             analyzers = [@activity_analyzer]
         else
-            analyzers = [@message_analyzer, @activity_analyzer]
+            analyzers = [@message_analyzer, @activity_analyzer, @account_analyzer]
         end
         final_output = analyzers.map(&:call).each_with_object(output_files: [], output_strings: [], output_raw: {}) do |output, total|
             total[:output_files] += output[:output_files]
             total[:output_strings] += output[:output_strings]
             total[:output_raw].merge!(output[:output_raw])
         end
-        puts final_output[:output_raw]
         ResultRenderer.new(final_output[:output_raw]).render
 
         system('clear') || system('cls')

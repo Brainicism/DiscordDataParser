@@ -18,7 +18,7 @@
             'rgba(255, 255, 255, 0.5)']
     }
     window.onload = function () {
-        const output = <%= @output %>;
+        const output = <%= @json_output %>;
         createChart(output, 'by_date', "messagesByDay", {
             title: "Messages By Date",
             xAxisTitle: 'Date',
@@ -207,7 +207,7 @@
     <title>Analysis</title>
 </head>
 <body>
-    <h2 class='title'>Results</h2>
+    <h2 class='title'><%= "#{@username}'s " %>Results</h2>
     <div class='chartRow'>
         <div class='graph-1'>
             <a class="graphSource" href="analyzed/messages/by_date.csv">Source</a>
