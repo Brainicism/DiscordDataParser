@@ -1,145 +1,211 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <script>
-const COLOR = {
-    WHITE: 'white',
-    LABEL_GREY: 'rgba(180, 180, 180, 1)',
-    GRID_GREY: 'rgba(153, 170, 181, 0.25)',
-    BLURPLE: 'rgba(114, 137, 218, 0.5)',
-    BLURPLE_SCHEME: ['rgba(16, 26, 61, 0.5)',
-                        'rgba(26, 43, 102, 0.5)',
-                        'rgba(37, 60, 142, 0.5)',
-                        'rgba(48, 77, 182, 0.5)',
-                        'rgba(74, 103, 207, 0.5)',
-                        'rgba(114, 137, 218, 0.5)',
-                        'rgba(154, 171, 229, 0.5)',
-                        'rgba(195, 205, 239, 0.5)',
-                        'rgba(235, 239, 250, 0.5)',
-                        'rgba(255, 255, 255, 0.5)']
-}
-window.onload = function () {
-    const output = <%= @output %>;
-    createChart(output, 'by_date', "messagesByDay", { title: "Messages By Date", xAxisTitle: 'Date', yAxisTitle: 'Number of Messages', type: 'line' });
-    createChart(output, 'by_day_of_week', "messagesByDayOfWeek", { title: "Messages by Day of Week", xAxisTitle: 'Day of Week', yAxisTitle: 'Number of Messages', type: 'bar' });
-    createChart(output, 'by_time_of_day', "messagesByTimeOfDay", { title: "Messages by Time of Day", xAxisTitle: 'Time of Day', yAxisTitle: 'Number of Messages', type: 'bar' });
-    createChart(output, 'commonly_used_words', "commonlyUsedWords", { title: "Commonly Used Words", xAxisTitle: 'Word', yAxisTitle: 'Number of Occurrences', type: 'bar', dataLimit: 25 });
-    createChart(output, 'per_thread', "perThread", { title: "Most Active Threads", xAxisTitle: 'Thread Name', yAxisTitle: 'Number of Messages', type: 'bar', dataLimit: 25 });
-    createChart(output, 'time_by_os', "timeByOS", { title: "Time Spent By OS", xAxisTitle: 'OS', yAxisTitle: 'Time Spent (minutes)', type: 'bar' });
-    createChart(output, 'time_by_location', "timeByLocation", { title: "Time Spent By Location", xAxisTitle: 'Location', yAxisTitle: 'Time Spent (minutes)', type: 'doughnut', dataLimit: 10 });
-    createChart(output, 'time_by_device', "timeByDevice", { title: "Time Spent By Device", xAxisTitle: 'Device', yAxisTitle: 'Time Spent (minutes)', type: 'doughnut', dataLimit: 10 });
-    createChart(output, 'reactions_by_use', "reactionsByUse", { title: "Reactions By Use", xAxisTitle: 'Reaction', yAxisTitle: 'Number of Occurrences', type: 'bar', dataLimit: 25 });
-    createChart(output, 'games_play_count', "gamesPlayCount", { title: "Game Play Count", xAxisTitle: 'Game', yAxisTitle: 'Play Count', type: 'bar', dataLimit: 25 });
-}
-
-const createChart = (outputData, dataKey, chartName, chartOptions) => {
-    let dataLabels = outputData[dataKey].map(data => data[0]);
-    let dataValues = outputData[dataKey].map(data => data[1]);
-    const ctx = document.getElementById(chartName).getContext('2d');
-
-    dataValues = dataValues.slice(0, chartOptions.dataLimit);
-
-    // Shorten visible values/labels to improve chart readability
-
-    dataLabels = dataLabels.slice(0, chartOptions.dataLimit);
-
-    const xAxisAutoskip = (chartOptions) => {
-
-        // When autoskipping is set to true in xAxes.ticks, some labels on the
-        //  x-axis are hidden for readability's sake. However, we only want this
-        //  to happen when we have a large amount of labels present (like in the
-        //  line chart).
-
-        return chartOptions.type === 'line';
+    const COLOR = {
+        WHITE: 'white',
+        LABEL_GREY: 'rgba(180, 180, 180, 1)',
+        GRID_GREY: 'rgba(153, 170, 181, 0.25)',
+        BLURPLE: 'rgba(114, 137, 218, 0.5)',
+        BLURPLE_SCHEME: ['rgba(16, 26, 61, 0.5)',
+            'rgba(26, 43, 102, 0.5)',
+            'rgba(37, 60, 142, 0.5)',
+            'rgba(48, 77, 182, 0.5)',
+            'rgba(74, 103, 207, 0.5)',
+            'rgba(114, 137, 218, 0.5)',
+            'rgba(154, 171, 229, 0.5)',
+            'rgba(195, 205, 239, 0.5)',
+            'rgba(235, 239, 250, 0.5)',
+            'rgba(255, 255, 255, 0.5)']
+    }
+    window.onload = function () {
+        const output = <%= @output %>;
+        createChart(output, 'by_date', "messagesByDay", {
+            title: "Messages By Date",
+            xAxisTitle: 'Date',
+            yAxisTitle: 'Number of Messages',
+            type: 'line'
+        });
+        createChart(output, 'by_day_of_week', "messagesByDayOfWeek", {
+            title: "Messages by Day of Week",
+            xAxisTitle: 'Day of Week',
+            yAxisTitle: 'Number of Messages',
+            type: 'bar'
+        });
+        createChart(output, 'by_time_of_day', "messagesByTimeOfDay", {
+            title: "Messages by Time of Day",
+            xAxisTitle: 'Time of Day',
+            yAxisTitle: 'Number of Messages',
+            type: 'bar'
+        });
+        createChart(output, 'commonly_used_messages', "commonlyUsedMessages", {
+            title: "Commonly Used Messages",
+            xAxisTitle: 'Message',
+            yAxisTitle: 'Number of Occurrences',
+            type: 'bar',
+            dataLimit: 25
+        });
+        createChart(output, 'commonly_used_words', "commonlyUsedWords", {
+            title: "Commonly Used Words",
+            xAxisTitle: 'Word',
+            yAxisTitle: 'Number of Occurrences',
+            type: 'bar',
+            dataLimit: 25
+        });
+        createChart(output, 'per_thread', "perThread", {
+            title: "Most Active Threads",
+            xAxisTitle: 'Thread Name',
+            yAxisTitle: 'Number of Messages',
+            type: 'bar',
+            dataLimit: 25
+        });
+        createChart(output, 'time_by_os', "timeByOS", {
+            title: "Time Spent By OS",
+            xAxisTitle: 'OS',
+            yAxisTitle: 'Time Spent (minutes)',
+            type: 'bar'
+        });
+        createChart(output, 'time_by_location', "timeByLocation", {
+            title: "Time Spent By Location",
+            xAxisTitle: 'Location',
+            yAxisTitle: 'Time Spent (minutes)',
+            type: 'doughnut',
+            dataLimit: 10
+        });
+        createChart(output, 'time_by_device', "timeByDevice", {
+            title: "Time Spent By Device",
+            xAxisTitle: 'Device',
+            yAxisTitle: 'Time Spent (minutes)',
+            type: 'doughnut',
+            dataLimit: 10
+        });
+        createChart(output, 'reactions_by_use', "reactionsByUse", {
+            title: "Reactions By Use",
+            xAxisTitle: 'Reaction',
+            yAxisTitle: 'Number of Occurrences',
+            type: 'bar',
+            dataLimit: 25
+        });
+        createChart(output, 'games_play_count', "gamesPlayCount", {
+            title: "Game Play Count",
+            xAxisTitle: 'Game',
+            yAxisTitle: 'Play Count',
+            type: 'bar',
+            dataLimit: 25
+        });
     }
 
-    if (chartOptions.type === 'doughnut') {
+    const createChart = (outputData, dataKey, chartName, chartOptions) => {
+        let dataLabels = outputData[dataKey].map(data => data[0]);
+        let dataValues = outputData[dataKey].map(data => data[1]);
+        const ctx = document.getElementById(chartName).getContext('2d');
 
-        // No axes for doughnut charts
+        dataValues = dataValues.slice(0, chartOptions.dataLimit);
 
-        const myChart = new Chart(ctx, {
-            type: chartOptions.type,
-            data: {
-                labels: dataLabels,
-                datasets: [{
-                    data: dataValues,
-                    backgroundColor: COLOR.BLURPLE_SCHEME,
-                    foregroundColor: COLOR.BLURPLE,
-                    borderColor: COLOR.BLURPLE,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: chartOptions.title,
-                    fontColor: COLOR.WHITE
+        // Shorten visible values/labels to improve chart readability
+
+        dataLabels = dataLabels.slice(0, chartOptions.dataLimit);
+
+        const xAxisAutoskip = (chartOptions) => {
+
+            // When autoskipping is set to true in xAxes.ticks, some labels on the
+            //  x-axis are hidden for readability's sake. However, we only want this
+            //  to happen when we have a large amount of labels present (like in the
+            //  line chart).
+
+            return chartOptions.type === 'line';
+        }
+
+        if (chartOptions.type === 'doughnut') {
+
+            // No axes for doughnut charts
+
+            const myChart = new Chart(ctx, {
+                type: chartOptions.type,
+                data: {
+                    labels: dataLabels,
+                    datasets: [{
+                        data: dataValues,
+                        backgroundColor: COLOR.BLURPLE_SCHEME,
+                        foregroundColor: COLOR.BLURPLE,
+                        borderColor: COLOR.BLURPLE,
+                        borderWidth: 1
+                    }]
                 },
-                legend: {
-                    display: true,
-                    position: 'right',
-                    labels: {
+                options: {
+                    title: {
+                        display: true,
+                        text: chartOptions.title,
                         fontColor: COLOR.WHITE
+                    },
+                    legend: {
+                        display: true,
+                        position: 'right',
+                        labels: {
+                            fontColor: COLOR.WHITE
+                        }
                     }
                 }
-            }
-        });
-    }
-    else {
-        const myChart = new Chart(ctx, {
-            type: chartOptions.type,
-            data: {
-                labels: dataLabels,
-                datasets: [{
-                    data: dataValues,
-                    backgroundColor: COLOR.BLURPLE,
-                    foregroundColor: COLOR.BLURPLE,
-                    borderColor: COLOR.BLURPLE,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: chartOptions.title,
-                    fontColor: COLOR.WHITE
-                },
-                legend: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            fontColor: COLOR.WHITE,
-                            labelString: chartOptions.yAxisTitle
-                        },
-                        ticks: {
-                            fontColor: COLOR.LABEL_GREY
-                        },
-                        gridLines: {
-                            color: COLOR.GRID_GREY
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
-                            fontColor: COLOR.LABEL_GREY,
-                            autoSkip: xAxisAutoskip(chartOptions)
-                        },
-                        gridLines: {
-                            color: COLOR.GRID_GREY
-                        },
-                        scaleLabel: {
-                            fontColor: COLOR.WHITE,
-                            display: true,
-                            labelString: chartOptions.xAxisTitle
-                        }
+            });
+        }
+        else {
+            const myChart = new Chart(ctx, {
+                type: chartOptions.type,
+                data: {
+                    labels: dataLabels,
+                    datasets: [{
+                        data: dataValues,
+                        backgroundColor: COLOR.BLURPLE,
+                        foregroundColor: COLOR.BLURPLE,
+                        borderColor: COLOR.BLURPLE,
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: chartOptions.title,
+                        fontColor: COLOR.WHITE
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                fontColor: COLOR.WHITE,
+                                labelString: chartOptions.yAxisTitle
+                            },
+                            ticks: {
+                                fontColor: COLOR.LABEL_GREY
+                            },
+                            gridLines: {
+                                color: COLOR.GRID_GREY
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: COLOR.LABEL_GREY,
+                                autoSkip: xAxisAutoskip(chartOptions)
+                            },
+                            gridLines: {
+                                color: COLOR.GRID_GREY
+                            },
+                            scaleLabel: {
+                                fontColor: COLOR.WHITE,
+                                display: true,
+                                labelString: chartOptions.xAxisTitle
+                            }
+                        }]
+                    }
                 }
-            }
-        });
+            });
+        }
     }
-}
 </script>
+<head>
+    <title>Analysis</title>
+</head>
 <body>
     <h2 class='title'>Results</h2>
     <div class='chartRow'>
@@ -149,7 +215,7 @@ const createChart = (outputData, dataKey, chartName, chartOptions) => {
         </div>
     </div>
 
-  <div class='chartRow'>
+    <div class='chartRow'>
         <div class='graph-2'>
             <a class="graphSource" href="analyzed/messages/by_day_of_week.csv">Source</a>
             <canvas id="messagesByDayOfWeek"></canvas>
@@ -162,38 +228,44 @@ const createChart = (outputData, dataKey, chartName, chartOptions) => {
 
     <div class='chartRow'>
         <div class='graph-2'>
+            <a class="graphSource" href="analyzed/messages/commonly_used_messsages.csv">Source</a>
+            <canvas id="commonlyUsedMessages"></canvas>
+        </div>
+        <div class='graph-2'>
             <a class="graphSource" href="analyzed/messages/commonly_used_words.csv">Source</a>
             <canvas id="commonlyUsedWords"></canvas>
-            </div>
+        </div>
+    </div>
+
+    <div class='chartRow'>
         <div class='graph-2'>
             <a class="graphSource" href="analyzed/messages/per_thread.csv">Source</a>
             <canvas id="perThread"></canvas>
         </div>
-    </div>
-
-    <div class='chartRow'>
         <div class='graph-2'>
             <a class="graphSource" href="analyzed/activity/time_by_os.csv">Source</a>
             <canvas id="timeByOS"></canvas>
         </div>
-          <div class='graph-2'>
-            <a class="graphSource" href="analyzed/activity/time_by_location.csv">Source</a>
-            <canvas id="timeByLocation"></canvas>
-        </div>
+
     </div>
 
     <div class='chartRow'>
+        <div class='graph-2'>
+            <a class="graphSource" href="analyzed/activity/time_by_location.csv">Source</a>
+            <canvas id="timeByLocation"></canvas>
+        </div>
         <div class='graph-2'>
             <a class="graphSource" href="analyzed/activity/time_by_device.csv">Source</a>
             <canvas id="timeByDevice"></canvas>
         </div>
+
+    </div>
+
+    <div class='chartRow'>
         <div class='graph-2'>
             <a class="graphSource" href="analyzed/activity/reactions_by_use.csv">Source</a>
             <canvas id="reactionsByUse"></canvas>
         </div>
-    </div>
-
-    <div class='chartRow'>
         <div class='graph-2'>
             <a class="graphSource" href="analyzed/activity/games_play_count.csv">Source</a>
             <canvas id="gamesPlayCount"></canvas>

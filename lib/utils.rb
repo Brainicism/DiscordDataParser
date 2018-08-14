@@ -78,5 +78,9 @@ class Utils
                 `xdg-open #{HTML_PATH}`
             end
         end
+
+        def word_is_mention_or_emoji(word)
+            word =~ /<:[a-zA-Z0-9]+:[0-9]+>/ || word =~ /<@![0-9]+>/ || word =~ /<@[0-9]+>/
+        end
     end
 end

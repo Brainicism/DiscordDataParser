@@ -8,7 +8,7 @@ class MessagesAnalyzer
     def initialize(path, params)
         @path = path
         @params = params
-        @message_by_content_processor = MessageByContentProcessor.new
+        @message_by_content_processor = MessageByContentProcessor.new(params)
         @message_by_date_processor = MessageByDateProcessor.new
         @message_prettifier_processor = MessagePrettifierProcessor.new
     end
@@ -32,7 +32,7 @@ class MessagesAnalyzer
 
     def results(output)
         output_files = []
-        [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_words].each do |type|
+        [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_messages].each do |type|
             Utils.write_output_csv(output, 'analyzed/messages', type) { |output_file| output_files.push(output_file) }
         end
         {
@@ -43,6 +43,7 @@ class MessagesAnalyzer
                 "Total Messages: #{output[:total_message_count]}",
                 "Average words per sentence: #{output[:average_words_per_message]}",
                 "Average messages per day: #{output[:average_messages_per_day]}",
+                "Most used message: #{output[:commonly_used_messages][0]}",
                 "Most used word: #{output[:commonly_used_words][0]}",
                 "Most active thread: #{output[:per_thread][0]}\n"
             ],

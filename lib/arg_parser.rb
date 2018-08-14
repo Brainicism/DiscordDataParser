@@ -1,11 +1,14 @@
 class ArgParser
     ALLOWED_FLAGS = [
-        { flag: '--update-events', param_key: :update_events },
-        { flag: '--verify-events', param_key: :verify_events },
-        { flag: '--quick-run', param_key: :quick_run },
-        { flag: '--prettify-messages', param_key: :prettify_messages }
+        {flag: '--update-events', param_key: :update_events},
+        {flag: '--verify-events', param_key: :verify_events},
+        {flag: '--quick-run', param_key: :quick_run},
+        {flag: '--prettify-messages', param_key: :prettify_messages}
     ].freeze
-    ALLOWED_FLAGS_WITH_ARG = [{ flag: '--data-path=', param_key: :data_path }].freeze
+    ALLOWED_FLAGS_WITH_ARG = [
+        {flag: '--data-path=', param_key: :data_path},
+        {flag: '--word-min-length=', param_key: :word_min_length}
+    ].freeze
 
     class << self
         def parse(args)
