@@ -32,6 +32,9 @@ class DiscordDataParser
             puts 'Binary Updated'
             return
         end
+
+        output_folder_gen
+        
         if @params[:verify_events] || @params[:update_events]
             analyzers = [@activity_analyzer]
         else
@@ -51,6 +54,11 @@ class DiscordDataParser
         puts 'Done!'
 
         Utils.open_html_graphs
+    end
+
+    def output_folder_gen
+        FileUtils.mkdir_p './output'
+        FileUtils.mkdir_p './output/visualizations'
     end
 end
 

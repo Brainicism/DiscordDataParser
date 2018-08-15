@@ -1,0 +1,110 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<script type="text/javascript" src="index.js"></script>
+<head>
+    <title>Analysis</title>
+</head>
+<body>
+    <h2 class='title'><%= "#{@username}'s " %>Results</h2>
+    <div class='chartRow'>
+        <div class='graph-1'>
+            <a class="graphSource" href="../analyzed/messages/by_date.csv">Source</a>
+            <canvas id="messagesByDay"></canvas>
+        </div>
+    </div>
+
+    <div class='chartRow'>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/messages/by_day_of_week.csv">Source</a>
+            <canvas id="messagesByDayOfWeek"></canvas>
+        </div>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/messages/by_time_of_day.csv">Source</a>
+            <canvas id="messagesByTimeOfDay"></canvas>
+        </div>
+    </div>
+
+    <div class='chartRow'>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/messages/commonly_used_messages.csv">Source</a>
+            <canvas id="commonlyUsedMessages"></canvas>
+        </div>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/messages/commonly_used_words.csv">Source</a>
+            <canvas id="commonlyUsedWords"></canvas>
+        </div>
+    </div>
+
+    <div class='chartRow'>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/messages/per_thread.csv">Source</a>
+            <canvas id="perThread"></canvas>
+        </div>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/activity/time_by_os.csv">Source</a>
+            <canvas id="timeByOS"></canvas>
+        </div>
+
+    </div>
+
+    <div class='chartRow'>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/activity/time_by_location.csv">Source</a>
+            <canvas id="timeByLocation"></canvas>
+        </div>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/activity/time_by_device.csv">Source</a>
+            <canvas id="timeByDevice"></canvas>
+        </div>
+
+    </div>
+
+    <div class='chartRow'>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/activity/reactions_by_use.csv">Source</a>
+            <canvas id="reactionsByUse"></canvas>
+        </div>
+        <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/activity/games_play_count.csv">Source</a>
+            <canvas id="gamesPlayCount"></canvas>
+        </div>
+    </div>
+</body>
+<style>
+    .chartRow {
+        display: inline-flex;
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    .graph-1 {
+        margin: 0 1rem 0 1rem;
+        width: 100%;
+    }
+
+    .graph-2 {
+        margin: 0 1rem 0 1rem;
+        width: 50%;
+    }
+
+    body {
+        background-color: #2C2F33;
+    }
+
+    .graphSource {
+        float: right;
+        font-family: 'Roboto';
+        color: #ffffff;
+        position: relative;
+        top: 1.5rem;
+        right: 0.5rem;
+        font-size: 0.75rem;
+        text-decoration: underline;
+    }
+    .title {
+        margin-top: 2rem;
+        font-family: 'Roboto';
+        color: #dcddde;
+        text-align: center;
+    }
+</style>

@@ -10,7 +10,7 @@ class Utils
     DATE_FORMAT = '%F'.freeze
     DAY_OF_WEEK_FORMAT = '%w'.freeze
     TIMEZONE = Time.now.zone.freeze
-    HTML_PATH = 'output/index.html'.freeze
+    HTML_PATH = 'output/visualizations/output.html'.freeze
 
     class << self
         def parse_funky_new_line_json_array(path)
@@ -59,7 +59,7 @@ class Utils
             end
             output_file = "#{type}.csv"
             dir_path = "#{OUTPUT_PATH}/#{directory}"
-            FileUtils.mkdir_p dir_path
+            FileUtils.mkdir_p dir_path 
             CSV.open("#{dir_path}/#{output_file}", 'w') do |csv|
                 output[type].each do |key, value|
                     csv << [key, value]
