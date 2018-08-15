@@ -16,9 +16,13 @@ class MessagesAnalyzer
     def call
         raise "Directory doesn't exist\n" unless File.directory? path
         message_index = Utils.parse_json_from_file("#{path}/index.json")
-        total_threads = Utils.get_num_of_directories(path)
         @start_time = Time.now
         puts 'Begin parsing messages...'
+        if @params[:thread_id]
+            message_index = message_index.select { |thread_id| thread_id == @params[:thread_id] }
+            raise "Couldn't find thread id: #{@params[:thread_id]}" if message_index.length == 0
+        end
+        total_threads = message_index.length
         message_index.each_with_index do |(thread_id, thread_name), index|
             break if @params[:quick_run] == true && index > 5
             thread_name = thread_name.nil? ? 'unknown_user' : thread_name

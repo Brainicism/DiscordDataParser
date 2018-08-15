@@ -57,8 +57,8 @@ end
 if $PROGRAM_NAME == __FILE__
     begin
         DiscordDataParser.new.call
+        gets.chomp unless defined?(Ocra)
     rescue StandardError => e
         puts e.to_s
     end
-    gets.chomp unless defined?(Ocra)
 end
