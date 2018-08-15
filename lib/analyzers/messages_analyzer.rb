@@ -32,7 +32,7 @@ class MessagesAnalyzer
 
     def results(output)
         output_files = []
-        [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_messages].each do |type|
+        [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_messages, :commonly_used_words].each do |type|
             Utils.write_output_csv(output, 'analyzed/messages', type) { |output_file| output_files.push(output_file) }
         end
         {
