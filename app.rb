@@ -33,7 +33,7 @@ class DiscordDataParser
             return
         end
 
-        output_folder_gen
+        generate_output_directory 
         
         if @params[:verify_events] || @params[:update_events]
             analyzers = [@activity_analyzer]
@@ -56,8 +56,7 @@ class DiscordDataParser
         Utils.open_html_graphs
     end
 
-    def output_folder_gen
-        FileUtils.mkdir_p './output'
+    def generate_output_directory
         FileUtils.mkdir_p './output/visualizations'
     end
 end
