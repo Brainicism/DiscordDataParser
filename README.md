@@ -7,6 +7,17 @@
 ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
 
+#### Arguments
+```
+--datapath=[PATH]               #specifies the directory of the backup
+--word-min-length=[LENGTH]      #specifies a minimum length of commonly used word data
+--thread-id=[ID]                #specifies a specific thread to perform message analysis on
+--rebuild-binary                #rebuilds an executable using ocra
+--quick-run                     #parse a subset of the available data for testing purposes
+--update-events                 #see event section below
+--verify-events                 #see event section below
+````
+
 An executable version can also be found [here](https://github.com/Brainicism/DiscordDataParser/raw/master/bin/app.exe). Simply execute it in the backup folder.
 
 An HTML file is generated with various charts to display the processed data. 
@@ -17,6 +28,7 @@ The following .csv files are also generated with the processed data:
 - Messages by time of day
 - Messages by thread
 - Most frequently used phrases
+- Most frequently used words
 - Game play count
 - Reactions by use
 - Time spent per device

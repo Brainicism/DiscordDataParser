@@ -3,7 +3,6 @@ class ArgParser
         { flag: '--update-events', param_key: :update_events },
         { flag: '--verify-events', param_key: :verify_events },
         { flag: '--quick-run', param_key: :quick_run },
-        { flag: '--prettify-messages', param_key: :prettify_messages },
         { flag: '--rebuild-binary', param_key: :rebuild_binary }
     ].freeze
     ALLOWED_FLAGS_WITH_ARG = [
