@@ -33,7 +33,7 @@ class DiscordDataParser
             return
         end
 
-        generate_output_directory 
+        generate_output_directory
         
         if @params[:verify_events] || @params[:update_events]
             analyzers = [@activity_analyzer]
