@@ -10,7 +10,7 @@ class Utils
     DATE_FORMAT = '%F'.freeze
     DAY_OF_WEEK_FORMAT = '%w'.freeze
     TIMEZONE = Time.now.zone.freeze
-    HTML_PATH = 'output/index.html'.freeze
+    HTML_PATH = 'output/visualizations/index.html'.freeze
 
     class << self
         def parse_funky_new_line_json_array(path)

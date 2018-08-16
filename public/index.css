@@ -1,0 +1,36 @@
+.chartRow {
+    display: inline-flex;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.graph-1 {
+    margin: 0 1rem 0 1rem;
+    width: 100%;
+}
+
+.graph-2 {
+    margin: 0 1rem 0 1rem;
+    width: 50%;
+}
+
+body {
+    background-color: #2C2F33;
+}
+
+.graphSource {
+    float: right;
+    font-family: 'Roboto';
+    color: #ffffff;
+    position: relative;
+    top: 1.5rem;
+    right: 0.5rem;
+    font-size: 0.75rem;
+    text-decoration: underline;
+}
+.title {
+    margin-top: 2rem;
+    font-family: 'Roboto';
+    color: #dcddde;
+    text-align: center;
+}
