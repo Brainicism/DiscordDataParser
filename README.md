@@ -3,7 +3,7 @@
 ![demo](/examples/os_device_words_location.png)
 
 # Requirements
-Ruby >2.0
+Ruby >=2.0
 
 # Usage
 ```
