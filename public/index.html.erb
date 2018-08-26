@@ -7,7 +7,7 @@
     <title>Analysis</title>
 </head>
 <body>
-    <h2 class='title'><%= "#{@username}'s " %>Results</h2>
+    <h2 class='title'><%= "#{@username}'s " %>Results <%= "with '#{@specified_thread_name}'" if @specified_thread_name %></h2>
     <p class="offset-text"><%= "All events parsed in UTC#{@utc_offset}" %></p>
     <div class='chartRow'>
         <div class='graph-1'>

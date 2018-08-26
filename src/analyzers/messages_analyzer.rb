@@ -20,6 +20,7 @@ class MessagesAnalyzer
         puts 'Begin parsing messages...'
         if @params[:thread_id]
             message_index = message_index.select { |thread_id| thread_id == @params[:thread_id] }
+            @specified_thread_name = message_index[@params[:thread_id]]
             raise "Couldn't find thread id: #{@params[:thread_id]}" if message_index.length == 0
         end
         total_threads = message_index.length
@@ -36,6 +37,7 @@ class MessagesAnalyzer
 
     def results(output)
         output_files = []
+        output[:specified_thread_name] = @specified_thread_name if @specified_thread_name
         [:by_date, :by_time_of_day, :by_day_of_week, :per_thread, :commonly_used_messages, :commonly_used_words].each do |type|
             Utils.write_output_csv(output, 'analyzed/messages', type) { |output_file| output_files.push(output_file) }
         end
