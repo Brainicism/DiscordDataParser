@@ -1,4 +1,6 @@
 class ReactionProcessor
+    UNKNOWN_REACTION_PATTERN = /\A[?]+\z/
+
     def initialize
         @total_reactions_added = 0
         @total_reactions_removed = 0
@@ -19,7 +21,7 @@ class ReactionProcessor
         {
             total_reactions_added: @total_reactions_added,
             total_reactions_removed: @total_reactions_removed,
-            reactions_by_use: @reactions_count_hash.sort_by { |_reaction, count| count }.reverse
+            reactions_by_use: @reactions_count_hash.reject { |key| key =~ UNKNOWN_REACTION_PATTERN }.sort_by { |_reaction, count| count }.reverse
         }
     end
 end
