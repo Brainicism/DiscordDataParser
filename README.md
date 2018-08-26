@@ -2,14 +2,13 @@
 ![demo](/examples/messages_by_date.png)
 ![demo](/examples/os_device_words_location.png)
 
+# Requirements
+Ruby >2.0
+
 # Usage
 ```
 ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
-
-# Requirements
-Ruby >2.0
-
 #### Arguments
 ```
 --datapath=[PATH]               #specifies the directory of the backup
