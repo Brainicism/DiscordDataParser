@@ -8,6 +8,7 @@ require 'time'
 require 'erb'
 class DiscordDataParser
     def initialize
+        Utils.version_check
         @params = ArgParser.parse(ARGV)
         if defined?(Ocra)
             @params[:quick_run] = true # ocra only runs app to check for dependencies, no need for full parse
