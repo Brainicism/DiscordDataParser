@@ -11,6 +11,9 @@ class Utils
     DAY_OF_WEEK_FORMAT = '%w'.freeze
     TIMEZONE = Time.now.zone.freeze
     HTML_PATH = 'output/visualizations/index.html'.freeze
+    NIX_FILENAME_CHAR_BLACKLIST = /\//.freeze
+    WINDOWS_FILENAME_CHAR_BLACKLIST = /[\/<>:"\\\|\?\*]/.freeze
+    BLACKLISTED_REPLACEMENT = ''.freeze
 
     class << self
         def parse_funky_new_line_json_array(path)
@@ -44,7 +47,18 @@ class Utils
         end
 
         def write_output_txt(output, directory, file_name)
-            output_file = "#{file_name}.txt"
+            # directory is an argument we control.
+            # don't mess it up and put weird characters in it.
+            # however, file_name is at the mercy of discord users,
+            # so we sanitize the weird shit that can appear like '/'
+            if OS.windows?
+                sanitized_file_name =
+                    file_name.gsub(WINDOWS_FILENAME_CHAR_BLACKLIST, BLACKLISTED_REPLACEMENT)
+            else
+                sanitized_file_name =
+                    file_name.gsub(NIX_FILENAME_CHAR_BLACKLIST, BLACKLISTED_REPLACEMENT)
+            end
+            output_file = "#{sanitized_file_name}.txt"
             dir_path = "#{OUTPUT_PATH}/#{directory}"
             FileUtils.mkdir_p dir_path
             File.open("#{dir_path}/#{output_file}", 'w') do |file|
