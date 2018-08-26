@@ -3,6 +3,6 @@ class MessagePrettifierProcessor
         prettified_messages = lines.map do |line|
             "[#{line[:date_time].strftime('%m/%d/%Y %H:%M')}] #{line[:message]}"
         end.reverse.join("\n")
-        Utils.write_output_txt(prettified_messages, 'prettified/messages', "#{thread_name}_#{thread_id}.txt")
+        Utils.write_output_txt(prettified_messages, 'prettified/messages', "#{thread_name}_#{thread_id}")
     end
 end
