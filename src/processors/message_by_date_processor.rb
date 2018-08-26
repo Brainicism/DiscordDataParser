@@ -25,38 +25,37 @@ class MessageByDateProcessor
         @message_by_day_of_week[time.strftime(Utils::DAY_OF_WEEK_FORMAT).to_i] += 1
     end
 
+	def find_insert_index(array, item)
+		# Requires ascending, sorted array
+		return array.index { |i| i[0] > item }
+	end
+
     def fill_messages_by_date
-        # TODO: make more efficient
         sorted = @messages_by_date.sort
         Date.parse(sorted.first[0]).upto(Date.parse(sorted.last[0])) do |date|
             date = date.strftime(Utils::DATE_FORMAT)
             found = sorted.find { |data| data[0] == date }
-            sorted.push [date, 0] if found.nil?
+            sorted.insert(find_insert_index(sorted, date), [date, 0]) if found.nil?
         end
-        sorted = sorted.sort
         @messages_by_date = sorted
     end
 
     def fill_messages_by_time_of_day
-        # TODO: make more efficient
         sorted = @message_by_time_of_day.sort
         0.upto(23).map do |hour|
             hour = hour < 10 ? "0#{hour}" : hour.to_s
             found = sorted.find { |data| data[0] == hour }
-            sorted.push [hour, 0] if found.nil?
+            sorted.insert(find_insert_index(sorted, hour), [hour, 0]) if found.nil?
         end
-        sorted = sorted.sort
         @message_by_time_of_day = sorted
     end
 
     def fill_messages_by_day_of_week
-        # TODO: make more efficient
         sorted = @message_by_day_of_week.sort
         0.upto(6).map do |day|
             found = sorted.find { |data| data[0] == day }
-            sorted.push [day, 0] if found.nil?
+            sorted.insert(find_insert_index(sorted, day), [day, 0]) if found.nil?
         end
-        sorted = sorted.sort
         @message_by_day_of_week = sorted
     end
 
