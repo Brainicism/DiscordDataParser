@@ -79,7 +79,7 @@ class MessagesAnalyzer
         csv_lines = csv_lines.map do |csv_line|
             begin
                 {
-                    date_time: Time.parse(csv_line[1]) + timezone_offset,
+                    date_time: Time.parse(csv_line[1]).utc + timezone_offset,
                     message: csv_line[2],
                     attachments: csv_line[3]
                 }
