@@ -29,7 +29,7 @@ class DiscordDataParser
 
     def call
         if @params[:rebuild_binary]
-            exec 'ocra app.rb public/index.erb --output bin/app.exe'
+            exec 'ocra app.rb public/ --output bin/app.exe'
             puts 'Binary Updated'
             return
         end
@@ -62,7 +62,7 @@ class DiscordDataParser
 
     def generate_output_directory
         FileUtils.mkdir_p './output/visualizations'
-        FileUtils.cp('./public/index.css', './output/visualizations/index.css')
+        FileUtils.cp(File.expand_path('public/index.css', __dir__), './output/visualizations/index.css')
     end
 end
 
