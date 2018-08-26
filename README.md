@@ -7,6 +7,9 @@
 ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
 
+# Requirements
+Ruby >2.0
+
 #### Arguments
 ```
 --datapath=[PATH]               #specifies the directory of the backup
