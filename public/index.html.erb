@@ -7,8 +7,9 @@
     <title>Analysis</title>
 </head>
 <body>
-    <h2 class='title'><%= "#{@username}'s " %>Results <%= "with '#{@specified_thread_name}'" if @specified_thread_name %></h2>
+    <h1 class='title'><%= "#{@username}'s " %>Results</h1>
     <p class="offset-text"><%= "All events parsed in UTC#{@utc_offset}" %></p>
+    <h3 class='section-heading'>Message Analysis  <%= "with '#{@specified_thread_name}'" if @specified_thread_name %></h3>
     <div class='chartRow'>
         <div class='graph-1'>
             <a class="graphSource" href="../analyzed/messages/by_date.csv">Source</a>
@@ -43,30 +44,31 @@
             <a class="graphSource" href="../analyzed/messages/per_thread.csv">Source</a>
             <canvas id="perThread"></canvas>
         </div>
+    </div>
+
+    <h3 class="section-heading">Event Analysis</h3>
+    <div class='chartRow'>
         <div class='graph-2'>
             <a class="graphSource" href="../analyzed/activity/time_by_os.csv">Source</a>
             <canvas id="timeByOS"></canvas>
         </div>
-
-    </div>
-
-    <div class='chartRow'>
         <div class='graph-2'>
             <a class="graphSource" href="../analyzed/activity/time_by_location.csv">Source</a>
             <canvas id="timeByLocation"></canvas>
         </div>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/activity/time_by_device.csv">Source</a>
-            <canvas id="timeByDevice"></canvas>
-        </div>
-
     </div>
 
     <div class='chartRow'>
         <div class='graph-2'>
+            <a class="graphSource" href="../analyzed/activity/time_by_device.csv">Source</a>
+            <canvas id="timeByDevice"></canvas>
+        </div>
+        <div class='graph-2'>
             <a class="graphSource" href="../analyzed/activity/reactions_by_use.csv">Source</a>
             <canvas id="reactionsByUse"></canvas>
         </div>
+    </div>
+    <div class='chartRow'>
         <div class='graph-2'>
             <a class="graphSource" href="../analyzed/activity/games_play_count.csv">Source</a>
             <canvas id="gamesPlayCount"></canvas>

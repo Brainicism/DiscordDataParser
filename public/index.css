@@ -18,7 +18,7 @@ body {
     background-color: #2C2F33;
 }
 
-.offset-text{
+.offset-text {
     text-align: center;
     color: #dcddde;
     font-family: 'Roboto';
@@ -34,8 +34,18 @@ body {
     font-size: 0.75rem;
     text-decoration: underline;
 }
+
 .title {
     margin-top: 2rem;
+    font-family: 'Roboto';
+    color: #dcddde;
+    text-decoration: underline;
+    text-align: center;
+}
+
+.section-heading {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
     font-family: 'Roboto';
     color: #dcddde;
     text-align: center;

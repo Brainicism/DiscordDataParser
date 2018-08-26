@@ -20,8 +20,8 @@ class MessagesAnalyzer
         puts 'Begin parsing messages...'
         if @params[:thread_id]
             message_index = message_index.select { |thread_id| thread_id == @params[:thread_id] }
-            @specified_thread_name = message_index[@params[:thread_id]]
-            raise "Couldn't find thread id: #{@params[:thread_id]}" if message_index.length == 0
+            @specified_thread_name = message_index[@params[:thread_id]] || 'unknown'
+            raise "Couldn't find thread id: #{@params[:thread_id]}" if message_index.empty?
         end
         total_threads = message_index.length
         message_index.each_with_index do |(thread_id, thread_name), index|
