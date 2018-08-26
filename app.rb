@@ -58,6 +58,7 @@ class DiscordDataParser
 
     def generate_output_directory
         FileUtils.mkdir_p './output/visualizations'
+        FileUtils.cp('./public/index.css', './output/visualizations/index.css')
     end
 end
 
