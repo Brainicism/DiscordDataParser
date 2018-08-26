@@ -45,6 +45,9 @@ class DiscordDataParser
             total[:output_strings] += output[:output_strings]
             total[:output_raw].merge!(output[:output_raw])
         end
+
+        #oh god why
+        final_output[:output_raw][:utc_offset] = Utils.zone_offset_to_utc_offset(Time.zone_offset(Utils.timezone(@params)))
         ResultRenderer.new(final_output[:output_raw]).render
 
         system('clear') || system('cls')

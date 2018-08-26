@@ -72,10 +72,12 @@ class MessagesAnalyzer
     def parse_message_file(file_path, thread_name, thread_id)
         csv_lines = Utils.read_csv_from_file(file_path)
         csv_lines.shift
+        timezone_offset = Time.zone_offset(Utils.timezone(@params))
+        raise 'Invalid timezone' unless timezone_offset
         csv_lines = csv_lines.map do |csv_line|
             begin
                 {
-                    date_time: Time.parse(csv_line[1]) + Time.zone_offset(Utils::TIMEZONE),
+                    date_time: Time.parse(csv_line[1]) + timezone_offset,
                     message: csv_line[2],
                     attachments: csv_line[3]
                 }

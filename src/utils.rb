@@ -9,7 +9,7 @@ class Utils
     TIME_OF_DAY_FORMAT = '%H'.freeze
     DATE_FORMAT = '%F'.freeze
     DAY_OF_WEEK_FORMAT = '%w'.freeze
-    TIMEZONE = Time.now.zone.freeze
+    SYSTEM_TIMEZONE = Time.now.zone.freeze
     HTML_PATH = 'output/visualizations/index.html'.freeze
     NIX_FILENAME_CHAR_BLACKLIST = /\//.freeze
     WINDOWS_FILENAME_CHAR_BLACKLIST = /[\/<>:"\\\|\?\*]/.freeze
@@ -22,10 +22,23 @@ class Utils
             end
         end
 
+        def timezone(params)
+            params[:timezone] || SYSTEM_TIMEZONE
+        end
+
+        def zone_offset_to_utc_offset(zone_offset)
+            negative = zone_offset < 0
+            hour_offset = (zone_offset.abs / 3600).to_s
+            hour_offset = "0#{hour_offset}" if hour_offset.length == 1
+            minute_offset = (zone_offset.abs % (3600) / 60).to_s
+            minute_offset = "0#{minute_offset}" if minute_offset.length == 1
+            "#{negative ? '-' : '+'}#{hour_offset}:#{minute_offset}"
+        end
+
         def parse_json_from_file(path)
             JSON.parse(File.read(path))
         rescue JSON::ParserError, Errno::ENOENT => e
-            raise "Could not parse #{path}. #{e.to_s[0..50]}\n"
+            raise " Could not parse #{path}. #{e.to_s[0..50]}\n"
         end
 
         def read_csv_from_file(path)

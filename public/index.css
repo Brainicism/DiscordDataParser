@@ -18,6 +18,12 @@ body {
     background-color: #2C2F33;
 }
 
+.offset-text{
+    text-align: center;
+    color: #dcddde;
+    font-family: 'Roboto';
+}
+
 .graphSource {
     float: right;
     font-family: 'Roboto';

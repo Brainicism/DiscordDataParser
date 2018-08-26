@@ -8,6 +8,7 @@
 </head>
 <body>
     <h2 class='title'><%= "#{@username}'s " %>Results</h2>
+    <p class="offset-text"><%= "All events parsed in UTC#{@utc_offset}" %></p>
     <div class='chartRow'>
         <div class='graph-1'>
             <a class="graphSource" href="../analyzed/messages/by_date.csv">Source</a>

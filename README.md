@@ -14,6 +14,7 @@ ruby app.rb --data-path=[PATH_TO_BACK_UP]
 --datapath=[PATH]               #specifies the directory of the backup
 --word-min-length=[LENGTH]      #specifies a minimum length of commonly used word data
 --thread-id=[ID]                #specifies a specific thread to perform message analysis on
+--timezone=[TIMEZONE]           #specifies the timezone/offset to parse the data in. Will accept RFC 2822 specified timezones or ±HH:MM UTC offsets
 --rebuild-binary                #rebuilds an executable using ocra
 --quick-run                     #parse a subset of the available data for testing purposes
 --update-events                 #see event section below

@@ -8,7 +8,8 @@ class ArgParser
     ALLOWED_FLAGS_WITH_ARG = [
         { flag: '--data-path=', param_key: :data_path },
         { flag: '--word-min-length=', param_key: :word_min_length },
-        { flag: '--thread-id=', param_key: :thread_id }
+        { flag: '--thread-id=', param_key: :thread_id },
+        { flag: '--timezone=', param_key: :timezone }
     ].freeze
 
     class << self
