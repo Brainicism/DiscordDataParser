@@ -5,12 +5,13 @@ require_relative '../processors/message_prettifier_processor'
 class MessagesAnalyzer
     attr_reader :path, :message_by_content_processor, :message_by_date_processor, :message_prettifier_processor
 
-    def initialize(path, params)
+    def initialize(path, params, activity_analyzer)
         @path = path
         @params = params
         @message_by_content_processor = MessageByContentProcessor.new(params)
         @message_by_date_processor = MessageByDateProcessor.new
         @message_prettifier_processor = MessagePrettifierProcessor.new
+        @activity_analyzer = activity_analyzer
     end
 
     def call
@@ -24,6 +25,7 @@ class MessagesAnalyzer
             raise "Couldn't find thread id: #{@params[:thread_id]}" if message_index.empty?
         end
         total_threads = message_index.length
+        @timezone_offsets_by_day = @activity_analyzer.timezone_offsets_by_day
         message_index.each_with_index do |(thread_id, thread_name), index|
             break if @params[:quick_run] == true && index > 5
             thread_name = thread_name.nil? ? 'unknown_user' : thread_name
@@ -78,13 +80,15 @@ class MessagesAnalyzer
         raise 'Invalid timezone' unless timezone_offset
         csv_lines = csv_lines.map do |csv_line|
             begin
+                parsed_time = Time.parse(csv_line[1])
+                timezone_offset = @timezone_offsets_by_day[parsed_time.strftime(Utils::DATE_FORMAT)] || Time.zone_offset(Utils.timezone(@params))
                 {
-                    date_time: Time.parse(csv_line[1]).utc + timezone_offset,
+                    date_time: parsed_time.utc + timezone_offset,
                     message: csv_line[2],
                     attachments: csv_line[3]
                 }
-            rescue StandardError
-                puts 'Could not parse csv line'
+            rescue StandardError => e
+                puts "Could not parse csv line #{e}"
                 return {}
             end
         end
