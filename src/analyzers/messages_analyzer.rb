@@ -76,11 +76,11 @@ class MessagesAnalyzer
     def parse_message_file(file_path, thread_name, thread_id)
         csv_lines = Utils.read_csv_from_file(file_path)
         csv_lines.shift
-        raise 'Invalid timezone' unless timezone_offset
         csv_lines = csv_lines.map do |csv_line|
             begin
                 parsed_time = Time.parse(csv_line[1])
                 timezone_offset = @timezone_offsets_by_day[parsed_time.strftime(Utils::DATE_FORMAT)] || Time.zone_offset(Utils.timezone(@params))
+                raise 'Invalid timezone' unless timezone_offset
                 {
                     date_time: parsed_time.utc + timezone_offset,
                     message: csv_line[2],
