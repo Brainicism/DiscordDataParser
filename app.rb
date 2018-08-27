@@ -28,7 +28,7 @@ class DiscordDataParser
 
     def call
         if @params[:rebuild_binary]
-            exec 'ocra app.rb public/ --output bin/app.exe'
+            exec 'ocra app.rb public/ --output bin/app.exe --gem-all'
             puts 'Binary Updated'
             return
         end
