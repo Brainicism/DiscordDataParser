@@ -1,0 +1,21 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    thread_safe (0.3.6)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
+    tzinfo-data (1.2018.5)
+      tzinfo (>= 1.0.0)
+
+PLATFORMS
+  x64-mingw32
+
+DEPENDENCIES
+  tzinfo
+  tzinfo-data
+
+RUBY VERSION
+   ruby 2.5.1p57
+
+BUNDLED WITH
+   1.16.3

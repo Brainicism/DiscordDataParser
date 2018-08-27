@@ -59,6 +59,10 @@ class ActivityAnalyzer
         }
     end
 
+    def timezone_offsets_by_day
+        output[:timezone_offsets_by_day]
+    end
+
     private
 
     def processors
