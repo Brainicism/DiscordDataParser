@@ -110,9 +110,5 @@ class Utils
             word =~ /<:[a-zA-Z0-9]+:[0-9]+>/ || word =~ /<@![0-9]+>/ || word =~ /<@[0-9]+>/
         end
 
-        def version_check
-            version = RUBY_VERSION.split('.').map(&:to_i)
-            raise 'Ruby >=2.0.0 required' if (version <=> [2, 0, 0]) == -1
-        end
     end
 end
