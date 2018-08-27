@@ -21,7 +21,7 @@ ruby app.rb --data-path=[PATH_TO_BACK_UP]
 --verify-events                 #see event section below
 ````
 
-An executable version can also be found [here](https://github.com/Brainicism/DiscordDataParser/raw/master/bin/app.exe). Simply execute it in the backup folder.
+An executable version can also be found [here](https://github.com/Brainicism/DiscordDataParser/releases). Simply execute it in the backup folder.
 
 An HTML file is generated with various charts to display the processed data. 
 
