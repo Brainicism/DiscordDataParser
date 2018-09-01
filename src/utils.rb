@@ -1,7 +1,7 @@
 require 'json'
 require 'csv'
 require 'fileutils'
-require_relative 'user_os.rb'
+require 'os'
 
 class Utils
     OUTPUT_PATH = './output'.freeze
@@ -64,7 +64,7 @@ class Utils
             # don't mess it up and put weird characters in it.
             # however, file_name is at the mercy of discord users,
             # so we sanitize the weird shit that can appear like '/'
-            if OS.windows?
+            if OS.windows? || OS::Underlying.windows?
                 sanitized_file_name =
                     file_name.gsub(WINDOWS_FILENAME_CHAR_BLACKLIST, BLACKLISTED_REPLACEMENT)
             else
@@ -94,14 +94,23 @@ class Utils
             end
             yield "#{directory}/#{output_file}"
         end
-
+        def isWSL? #no other way than to grep
+            return `grep -c Microsoft /proc/version`.to_i > 0 #https://github.com/Microsoft/WSL/issues/423#issuecomment-221627364
+	end
         def open_html_graphs
-            if OS.windows?
+            if OS.windows? && OS::Underlying.windows? #normal windows
                 `explorer file://#{File.expand_path("#{HTML_PATH}", File.dirname(ENV["OCRA_EXECUTABLE"]))}` if ENV["OCRA_EXECUTABLE"]
                 `explorer file://#{File.expand_path("../#{HTML_PATH}", File.dirname(__FILE__))}` unless ENV["OCRA_EXECUTABLE"]
-            elsif OS.mac?
+            elsif (!OS.windows?) && OS::Underlying.windows? #cygwin, etc
+                `xdg-open #{HTML_PATH}` #need to test on cygwin and others
+            elsif OS.mac? #Mac, OS x
                 `open #{HTML_PATH}`
-            elsif OS.unix? || OS.linux?
+            elsif OS.posix? && isWSL?() #specifically for WSL
+		#converts from posix naming system to windows naming system (wslpath)
+                #explorer.exe can be run from WSL
+                `explorer.exe file://#{`wslpath -m  #{File.expand_path("../#{HTML_PATH}", File.dirname("OCRA_EXECUTABLE"))}`} ` if ENV["OCRA_EXECUTABLE"] #need to test ocra and WSL together
+                `explorer.exe file://#{`wslpath -m  #{File.expand_path("../#{HTML_PATH}", File.dirname(__FILE__))}`} ` unless ENV["OCRA_EXECUTABLE"]
+            elsif OS.posix? #unix, linux
                 `xdg-open #{HTML_PATH}`
             end
         end
