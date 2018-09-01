@@ -7,6 +7,7 @@ Ruby >=2.0
 
 # Usage
 ```
+bundle
 ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
 #### Arguments
