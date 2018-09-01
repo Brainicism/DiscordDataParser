@@ -76,19 +76,21 @@ class MessagesAnalyzer
     def parse_message_file(file_path, thread_name, thread_id)
         csv_lines = Utils.read_csv_from_file(file_path)
         csv_lines.shift
-        csv_lines = csv_lines.map do |csv_line|
-            parsed_time = Time.parse(csv_line[1])
-            if @params[:normalize_time] == false
-                timezone_offset = Time.zone_offset(Utils.timezone(@params))
-            else
-                timezone_offset = @timezone_offsets_by_day[parsed_time.strftime(Utils::DATE_FORMAT)] || Time.zone_offset(Utils.timezone(@params))
-            end
-            raise 'Invalid timezone' unless timezone_offset
-            {
-                date_time: parsed_time.utc + timezone_offset,
-                message: csv_line[2],
-                attachments: csv_line[3]
-            }
+        begin
+            csv_lines = csv_lines.map do |csv_line|
+                parsed_time = Time.parse(csv_line[1])
+                if @params[:normalize_time] == false
+                    timezone_offset = Time.zone_offset(Utils.timezone(@params))
+                else
+                    timezone_offset = @timezone_offsets_by_day[parsed_time.strftime(Utils::DATE_FORMAT)] || Time.zone_offset(Utils.timezone(@params))
+                end
+                raise 'Invalid timezone' unless timezone_offset
+                {
+                    date_time: parsed_time.utc + timezone_offset,
+                    message: csv_line[2],
+                    attachments: csv_line[3]
+                }
+        end
         rescue StandardError => e
             puts "Could not parse csv line #{e}"
             return {}
