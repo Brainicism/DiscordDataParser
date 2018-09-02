@@ -110,7 +110,7 @@ class Utils
                 #explorer.exe can be run from WSL
                 `explorer.exe file://#{`wslpath -m  #{File.expand_path("../#{HTML_PATH}", File.dirname("OCRA_EXECUTABLE"))}`} ` if ENV["OCRA_EXECUTABLE"] #need to test ocra and WSL together
                 `explorer.exe file://#{`wslpath -m  #{File.expand_path("../#{HTML_PATH}", File.dirname(__FILE__))}`} ` unless ENV["OCRA_EXECUTABLE"]
-            elsif OS.posix? #unix, linux (also true for WSL)
+            elsif OS.posix? #unix, linux
                 `xdg-open #{HTML_PATH}`
             end
         end
