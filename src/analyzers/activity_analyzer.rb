@@ -5,7 +5,7 @@ require_relative '../processors/reaction_processor'
 require_relative '../processors/session_processor'
 require_relative '../processors/verify_events_processor'
 class ActivityAnalyzer
-    attr_reader :path, :session_processor, :reaction_processor, :game_processor, :voice_processor, :verify_events_processor
+    attr_reader :path, :session_processor, :reaction_processor, :game_processor, :voice_processor, :verify_events_processor, :output_available
     attr_accessor :games
 
     def initialize(path, params)

@@ -47,7 +47,7 @@ class DiscordDataParser
 
         #oh god why
         final_output[:output_raw][:utc_offset] = Utils.zone_offset_to_utc_offset(Time.zone_offset(Utils.timezone(@params)))
-        ResultRenderer.new(final_output[:output_raw]).render
+        ResultRenderer.new(final_output[:output_raw], @activity_analyzer.output_available).render
 
         system('clear') || system('cls')
         puts "Files saved: [#{final_output[:output_files].map { |file| "\"#{file}\"" }.join(', ')}]"

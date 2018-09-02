@@ -18,13 +18,13 @@ body {
     background-color: #2C2F33;
 }
 
-.offset-text {
+p {
     text-align: center;
     color: #dcddde;
     font-family: 'Roboto';
 }
 
-.graphSource {
+.graph-source {
     float: right;
     font-family: 'Roboto';
     color: #ffffff;
@@ -49,4 +49,8 @@ body {
     font-family: 'Roboto';
     color: #dcddde;
     text-align: center;
+}
+
+.section {
+    margin-bottom: 5rem;
 }
