@@ -95,8 +95,8 @@ class Utils
             yield "#{directory}/#{output_file}"
         end
         def isWSL? #no other way than to grep
-            return `grep -c Microsoft /proc/version`.to_i > 0 #https://github.com/Microsoft/WSL/issues/423#issuecomment-221627364
-	end
+            return  OS.posix? && `grep -c Microsoft /proc/version`.to_i > 0 #https://github.com/Microsoft/WSL/issues/423#issuecomment-221627364
+        end
         def open_html_graphs
             if OS.windows? && OS::Underlying.windows? #normal windows
                 `explorer file://#{File.expand_path("#{HTML_PATH}", File.dirname(ENV["OCRA_EXECUTABLE"]))}` if ENV["OCRA_EXECUTABLE"]
@@ -105,12 +105,12 @@ class Utils
                 `xdg-open #{HTML_PATH}` #need to test on cygwin and others
             elsif OS.mac? #Mac, OS x
                 `open #{HTML_PATH}`
-            elsif OS.posix? && isWSL?() #specifically for WSL
-		#converts from posix naming system to windows naming system (wslpath)
+            elsif isWSL? #specifically for WSL
+                #converts from posix naming system to windows naming system (wslpath)
                 #explorer.exe can be run from WSL
                 `explorer.exe file://#{`wslpath -m  #{File.expand_path("../#{HTML_PATH}", File.dirname("OCRA_EXECUTABLE"))}`} ` if ENV["OCRA_EXECUTABLE"] #need to test ocra and WSL together
                 `explorer.exe file://#{`wslpath -m  #{File.expand_path("../#{HTML_PATH}", File.dirname(__FILE__))}`} ` unless ENV["OCRA_EXECUTABLE"]
-            elsif OS.posix? #unix, linux
+            elsif OS.posix? #unix, linux (also true for WSL)
                 `xdg-open #{HTML_PATH}`
             end
         end
