@@ -15,7 +15,7 @@ class MessagesAnalyzer
     end
 
     def call
-        raise "Directory doesn't exist\n" unless File.directory? path
+        raise "#{path} doesn't exist\n" unless File.directory? path
         message_index = Utils.parse_json_from_file("#{path}/index.json")
         @start_time = Time.now
         puts 'Begin parsing messages...'
@@ -25,7 +25,7 @@ class MessagesAnalyzer
             raise "Couldn't find thread id: #{@params[:thread_id]}" if message_index.empty?
         end
         total_threads = message_index.length
-        @timezone_offsets_by_day = @activity_analyzer.timezone_offsets_by_day
+        @timezone_offsets_by_day = @activity_analyzer.timezone_offsets_by_day || {}
         message_index.each_with_index do |(thread_id, thread_name), index|
             break if @params[:quick_run] == true && index > 5
             thread_name = thread_name.nil? ? 'unknown_user' : thread_name
@@ -90,7 +90,7 @@ class MessagesAnalyzer
                     message: csv_line[2],
                     attachments: csv_line[3]
                 }
-        end
+            end
         rescue StandardError => e
             puts "Could not parse csv line #{e}"
             return {}

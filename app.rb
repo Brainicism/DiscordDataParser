@@ -34,21 +34,20 @@ class DiscordDataParser
         end
 
         generate_output_directory
-
         if @params[:verify_events] || @params[:update_events]
             analyzers = [@activity_analyzer]
         else
             analyzers = [@activity_analyzer, @message_analyzer, @account_analyzer]
         end
         final_output = analyzers.map(&:call).each_with_object(output_files: [], output_strings: [], output_raw: {}) do |output, total|
-            total[:output_files] += output[:output_files]
-            total[:output_strings] += output[:output_strings]
-            total[:output_raw].merge!(output[:output_raw])
+            total[:output_files] += output[:output_files] || []
+            total[:output_strings] += output[:output_strings] || []
+            total[:output_raw].merge!(output[:output_raw] || {})
         end
 
         #oh god why
         final_output[:output_raw][:utc_offset] = Utils.zone_offset_to_utc_offset(Time.zone_offset(Utils.timezone(@params)))
-        ResultRenderer.new(final_output[:output_raw]).render
+        ResultRenderer.new(final_output[:output_raw], @activity_analyzer.output_available).render
 
         system('clear') || system('cls')
         puts "Files saved: [#{final_output[:output_files].map { |file| "\"#{file}\"" }.join(', ')}]"

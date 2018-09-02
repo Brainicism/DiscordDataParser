@@ -61,6 +61,8 @@ Human readable versions of each message thread are also generated.
 You can retrieve your past Discord messages by following the instructions in the article below.
 https://support.discordapp.com/hc/en-us/articles/360004027692
 
+### Activity Data
+Many of the generated charts/analyses rely on activity data provided in the data backup, which not every user may have. My hypothesis is that this data is only generated if the user has toggled the `Use data to improve Discord` setting under `Privacy & Settings` in the client settings. If this data is not present, the corresponding charts/information will not appear. 
 
 # Event Types
 Given that there is no documented list of possible `event_types`s, the repo contains a `event_list.txt` file that contains every `event_type` seen so far. Running the app with the `--verify-events` flag will check the data backup against `event_list.txt` and display any events missing. If there events are of interest, we should parse them, and re-run the app with `--update-events` to add the new events to `event_list.txt`.

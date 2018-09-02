@@ -1,11 +1,11 @@
 class ResultRenderer
     attr_reader :output
 
-    def initialize(output)
+    def initialize(output, activity_available)
         @output = output
         @html_template = ERB.new File.read("#{File.expand_path("../public/index.html.erb", __dir__)}"), nil, '%'
         @js_template = ERB.new File.read("#{File.expand_path("../public/index.js.erb", __dir__)}"), nil, '%'
-
+        @activity_available = activity_available
     end
 
     def render
