@@ -6,8 +6,13 @@
 Ruby >=2.0
 
 # Usage
+Bundle is required to manage dependencies
 ```
+gem install bundle
 bundle
+```
+To run the application:
+```
 ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
 #### Arguments
