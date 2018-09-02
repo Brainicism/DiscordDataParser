@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    os (1.0.0)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
@@ -12,6 +13,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  os
   tzinfo
   tzinfo-data
 
