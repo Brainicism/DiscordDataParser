@@ -56,40 +56,40 @@ window.onload = function () {
         dataLimit: 25
     });
     <% if @activity_available %>
-    createChart(output, 'time_by_os', "timeByOS", {
-        title: "Time Spent By OS",
-        xAxisTitle: 'OS',
-        yAxisTitle: 'Time Spent (minutes)',
-        type: 'bar'
-    });
-    createChart(output, 'time_by_location', "timeByLocation", {
-        title: "Time Spent By Location",
-        xAxisTitle: 'Location',
-        yAxisTitle: 'Time Spent (minutes)',
-        type: 'doughnut',
-        dataLimit: 10
-    });
-    createChart(output, 'time_by_device', "timeByDevice", {
-        title: "Time Spent By Device",
-        xAxisTitle: 'Device',
-        yAxisTitle: 'Time Spent (minutes)',
-        type: 'doughnut',
-        dataLimit: 10
-    });
-    createChart(output, 'reactions_by_use', "reactionsByUse", {
-        title: "Reactions By Use",
-        xAxisTitle: 'Reaction',
-        yAxisTitle: 'Number of Occurrences',
-        type: 'bar',
-        dataLimit: 25
-    });
-    createChart(output, 'games_play_count', "gamesPlayCount", {
-        title: "Game Play Count",
-        xAxisTitle: 'Game',
-        yAxisTitle: 'Play Count',
-        type: 'bar',
-        dataLimit: 25
-    });
+        createChart(output, 'time_by_os', "timeByOS", {
+            title: "Time Spent By OS",
+            xAxisTitle: 'OS',
+            yAxisTitle: 'Time Spent (minutes)',
+            type: 'bar'
+        });
+        createChart(output, 'time_by_location', "timeByLocation", {
+            title: "Time Spent By Location",
+            xAxisTitle: 'Location',
+            yAxisTitle: 'Time Spent (minutes)',
+            type: 'doughnut',
+            dataLimit: 10
+        });
+        createChart(output, 'time_by_device', "timeByDevice", {
+            title: "Time Spent By Device",
+            xAxisTitle: 'Device',
+            yAxisTitle: 'Time Spent (minutes)',
+            type: 'doughnut',
+            dataLimit: 10
+        });
+        createChart(output, 'reactions_by_use', "reactionsByUse", {
+            title: "Reactions By Use",
+            xAxisTitle: 'Reaction',
+            yAxisTitle: 'Number of Occurrences',
+            type: 'bar',
+            dataLimit: 25
+        });
+        createChart(output, 'games_play_count', "gamesPlayCount", {
+            title: "Game Play Count",
+            xAxisTitle: 'Game',
+            yAxisTitle: 'Play Count',
+            type: 'bar',
+            dataLimit: 25
+        });
     <% end %>
 }
 
