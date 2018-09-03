@@ -50,17 +50,18 @@ class ActivityAnalyzer
         end
         {
             output_files: output_files,
-            output_strings: [
-                "Activity Analysis #{(@end_time - @start_time).round(1)}s",
-                '-----------------------------------',
-                "Total Sessions: #{output[:total_sessions]}",
-                "Average session length: #{output[:average_session_length]} minutes",
-                "App opened #{output[:total_app_open]} times",
-                "Total Reactions Added: #{output[:total_reactions_added]}",
-                "Total Reactions Removed: #{output[:total_reactions_removed]}",
-                "Total Voice Channels Joined: #{output[:total_voice_channel_connections]}\n"
-            ],
-            output_raw: output
+            misc_data: {
+                activity: {
+                    analysis_duration: (@end_time - @start_time).round(1),
+                    total_sessions: output[:total_sessions],
+                    average_session_length: output[:average_session_length],
+                    total_app_opens: output[:total_app_open],
+                    total_reactions_added: output[:total_reactions_added],
+                    total_reactions_removed: output[:total_reactions_removed],
+                    total_voice_channel_joins: output[:total_voice_channel_connections]
+                }
+            },
+            output_data: output
         }
     end
 

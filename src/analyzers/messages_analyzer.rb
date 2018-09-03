@@ -45,17 +45,15 @@ class MessagesAnalyzer
         end
         {
             output_files: output_files,
-            output_strings: [
-                "Message Analysis #{(@end_time - @start_time).round(1)}s",
-                '-----------------------------------',
-                "Total Messages: #{output[:total_message_count]}",
-                "Average words per sentence: #{output[:average_words_per_message]}",
-                "Average messages per day: #{output[:average_messages_per_day]}",
-                "Most used message: #{output[:commonly_used_messages][0]}",
-                "Most used word: #{output[:commonly_used_words][0]}",
-                "Most active thread: #{output[:per_thread][0]}\n"
-            ],
-            output_raw: output
+            misc_data: {
+                messages: {
+                    analysis_duration: (@end_time - @start_time).round(1),
+                    total_message_count: output[:total_message_count],
+                    average_words_per_message: output[:average_words_per_message],
+                    average_messages_per_day: output[:average_messages_per_day]
+                }
+            },
+            output_data: output
         }
     end
 

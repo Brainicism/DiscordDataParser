@@ -8,9 +8,16 @@
 </head>
 <body>
     <h1 class='title'><%= "#{@username}'s " %>Results</h1>
-    <p><%= "All events parsed in UTC#{@utc_offset}" %></p>
+    <p class="description-text">The complete set of processed data can be found in the 'output/' directory</p>
+    <p class="description-text"><%= "All events parsed in UTC#{@utc_offset}" %></p>
     <div class="section">
         <h3 class='section-heading'>Message Analysis  <%= "with '#{@specified_thread_name}'" if @specified_thread_name %></h3>
+        <div class="misc-data">
+            <p>Analysis Length: <%= @misc_data[:messages][:analysis_duration]%> seconds</p>
+            <p>Total Message Count: <%= @misc_data[:messages][:total_message_count]%></p>
+            <p>Average Words Per Message: <%= @misc_data[:messages][:average_words_per_message]%></p>
+            <p>Average Messages Per Day: <%= @misc_data[:messages][:average_messages_per_day]%></p>
+        </div>
         <div class='chartRow'>
             <div class='graph-1'>
                 <a class="graph-source" href="../analyzed/messages/by_date.csv">Source</a>
@@ -50,6 +57,15 @@
     <div class="section">
         <h3 class="section-heading">Event Analysis</h3>
         <% if @activity_available %>
+            <div class="misc-data">
+                <p>Analysis Length: <%= @misc_data[:activity][:analysis_duration]%> seconds</p>
+                <p>Total Sessions: <%= @misc_data[:activity][:total_sessions]%></p>
+                <p>Average Session Length: <%= @misc_data[:activity][:average_session_length]%></p>
+                <p>Total App Opens: <%= @misc_data[:activity][:total_app_opens]%></p>
+                <p>Total Reactions Added: <%= @misc_data[:activity][:total_reactions_added]%></p>
+                <p>Total Reactions Removed: <%= @misc_data[:activity][:total_reactions_removed]%></p>
+                <p>Total Voice Channel Joins: <%= @misc_data[:activity][:total_voice_channel_joins]%></p>
+            </div>
             <div class='chartRow'>
                 <div class='graph-2'>
                     <a class="graph-source" href="../analyzed/activity/time_by_os.csv">Source</a>
@@ -78,7 +94,7 @@
                 </div>
             </div>
         <% else %>
-            <p>No activity data found. Refer <a href="https://github.com/Brainicism/DiscordDataParser/blob/master/README.md">here</a> for more details</p>
+            <p class="description-text">No activity data found. Refer <a href="https://github.com/Brainicism/DiscordDataParser/blob/master/README.md">here</a> for more details</p>
         <% end %>
         </div>
 </body>

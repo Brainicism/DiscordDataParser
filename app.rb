@@ -39,22 +39,14 @@ class DiscordDataParser
         else
             analyzers = [@activity_analyzer, @message_analyzer, @account_analyzer]
         end
-        final_output = analyzers.map(&:call).each_with_object(output_files: [], output_strings: [], output_raw: {}) do |output, total|
+        final_output = analyzers.map(&:call).each_with_object(output_files: [], misc_data: {}, output_data: {}) do |output, total|
             total[:output_files] += output[:output_files] || []
-            total[:output_strings] += output[:output_strings] || []
-            total[:output_raw].merge!(output[:output_raw] || {})
+            total[:misc_data].merge! (output[:misc_data] || {})
+            total[:output_data].merge!(output[:output_data] || {})
         end
 
-        #oh god why
-        final_output[:output_raw][:utc_offset] = Utils.zone_offset_to_utc_offset(Time.zone_offset(Utils.timezone(@params)))
-        ResultRenderer.new(final_output[:output_raw], @activity_analyzer.output_available).render
-
-        system('clear') || system('cls')
-        puts "Files saved: [#{final_output[:output_files].map { |file| "\"#{file}\"" }.join(', ')}]"
-        puts 'Prettified message files saved: output/prettified/messages'
-        puts final_output[:output_strings].join("\n")
-        puts 'Done!'
-
+        final_output[:output_data][:utc_offset] = Utils.zone_offset_to_utc_offset(Time.zone_offset(Utils.timezone(@params)))
+        ResultRenderer.new(final_output, @activity_analyzer.output_available).render
         Utils.open_html_graphs
     end
 
@@ -67,7 +59,6 @@ end
 if $PROGRAM_NAME == __FILE__
     begin
         DiscordDataParser.new.call
-        gets.chomp unless defined?(Ocra)
     rescue StandardError => e
         puts e.to_s
     end

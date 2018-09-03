@@ -18,7 +18,7 @@ body {
     background-color: #2C2F33;
 }
 
-p {
+.description-text {
     text-align: center;
     color: #dcddde;
     font-family: 'Roboto';
@@ -53,4 +53,16 @@ p {
 
 .section {
     margin-bottom: 5rem;
+}
+
+.misc-data {
+    margin-bottom: 1rem;
+}
+
+.misc-data > p {
+    text-align: center;
+    color: #dcddde;
+    font-family: 'Roboto';
+    margin-top: 0;
+    margin-bottom: 0;
 }

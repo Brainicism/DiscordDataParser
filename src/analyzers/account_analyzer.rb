@@ -8,8 +8,8 @@ class AccountAnalyzer
         account_details = JSON.parse File.read "#{@path}/user.json"
         {
             output_files: [],
-            output_strings: [],
-            output_raw: {
+            misc_data: {},
+            output_data: {
                 username: account_details['username'],
                 email: account_details['email']
             }
