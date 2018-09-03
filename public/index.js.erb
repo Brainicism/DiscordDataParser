@@ -55,6 +55,7 @@ window.onload = function () {
         type: 'bar',
         dataLimit: 25
     });
+    <% if @activity_available %>
     createChart(output, 'time_by_os', "timeByOS", {
         title: "Time Spent By OS",
         xAxisTitle: 'OS',
@@ -89,6 +90,7 @@ window.onload = function () {
         type: 'bar',
         dataLimit: 25
     });
+    <% end %>
 }
 
 const createChart = (outputData, dataKey, chartName, chartOptions) => {
