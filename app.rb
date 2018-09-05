@@ -53,6 +53,7 @@ class DiscordDataParser
     def generate_output_directory
         FileUtils.mkdir_p './output/visualizations'
         FileUtils.cp(File.expand_path('public/index.css', __dir__), './output/visualizations/index.css')
+        FileUtils.cp(File.expand_path('public/favicon.ico', __dir__), './output/visualizations/favicon.ico')
     end
 end
 
