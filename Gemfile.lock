@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ocra (1.3.10)
     os (1.0.0)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
@@ -13,6 +14,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  ocra
   os
   tzinfo
   tzinfo-data
