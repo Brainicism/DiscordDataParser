@@ -10,6 +10,7 @@ Note: The email usually takes about a week, but can be up to 30 days.
 
 ### 3. Download executable.
 Go to the [releases page](https://github.com/Brainicism/DiscordDataParser/releases) on github and download the `*.exe` file.  
+![Download App](examples/download_app.png)
 
 You should now have the `package.zip` and the `*.exe`  
 ![AppAndPackage](examples/app_package.png)
