@@ -47,7 +47,7 @@ class MessageByContentProcessor
     def process_markov
         markov = MarkyMarkov::TemporaryDictionary.new
         FileUtils.mkdir_p 'tmp'
-        File.open('tmp/sentences.txt', 'w') { |file| file.write(@sentences) }
+        File.open('tmp/sentences.txt', 'w') { |file| file.write(@sentences.join("\n")) }
         markov.parse_file 'tmp/sentences.txt'
         markov_sentences = Array.new(100) { |_i| markov.generate_1_sentences }
         Utils.write_output_txt(markov_sentences.join("\n"), '', 'markov')
