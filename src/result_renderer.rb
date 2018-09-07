@@ -12,7 +12,7 @@ class ResultRenderer
     def render
         @json_output = @output.to_json
         @username = @output[:username]
-        @usertag = @output[:usertag]
+        @user_tag = @output[:user_tag]
         @specified_thread_name = @output[:specified_thread_name]
         @utc_offset = @output[:utc_offset]
 
