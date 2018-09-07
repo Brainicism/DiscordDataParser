@@ -25,7 +25,7 @@ To run the application:
 ```
 ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
-#### Arguments
+#### Arguments:
 ```
 --datapath=[PATH]               #specifies the directory of the backup, defaults to current working directory ./
 --word-min-length=[LENGTH]      #specifies a minimum length of commonly used word data

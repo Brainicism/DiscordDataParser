@@ -21,7 +21,7 @@ You should now have the `package.zip` and the `*.exe`
 ![Moving *.exe](examples/move_app.png)  
 Note: The name of the folder doesn't actually matter.
 
-### 6. Run the `*.exe` as administrator.  
+### 6. Run the `*.exe`.  
 ![Running App](examples/run_app.png)
 
 
