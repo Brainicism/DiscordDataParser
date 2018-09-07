@@ -1,6 +1,5 @@
-
-![demo](/examples/messages_by_date.png)
-![demo](/examples/os_device_words_location.png)
+![demo](/examples/message_analysis_charts.png)
+![demo](/examples/markov.png)
 
 # Requirements
 Ruby >=2.0
@@ -32,30 +31,28 @@ An executable version can also be found [here](https://github.com/Brainicism/Dis
 
 An HTML file is generated with various charts to display the processed data. 
 
-The following .csv files are also generated with the processed data:
-- Messages by day
-- Messages by day of week
-- Messages by time of day
-- Messages by thread
-- Most frequently used phrases
-- Most frequently used words
-- Game play count
-- Reactions by use
-- Time spent per device
-- Time spent per location
-- Time spent per OS
+Various charts are generated such as:  
 
-The following information is shown:
-- Total number of messages sent
-- Average message length
-- Average messages per day
-- Total number of sessions
-- Total times app opened
-- Average length per session
-- Total number of reactions added/removed
-- Total number of voice channel joins
+- messages by date
+- messages by day of week/time of day
+- commonly used messages/words
+- most active threads
+- time spent by OS/location/device
+- most used reactions
+- game play count
 
-Human readable versions of each message thread are also generated.
+Various markov strings are generated and displayed.
+
+Other miscellaneous data is also displayed such as:
+
+- total message count
+- average words per message
+- average messages per day
+- total sessions, average session length
+- total reactions added/removed
+- total voice channel joins
+
+Human readable versions of each message thread are also generated in `output/prettified`.
 
 # Requesting your data
 You can retrieve your past Discord messages by following the instructions in the article below.
