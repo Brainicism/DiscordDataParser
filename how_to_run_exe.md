@@ -1,6 +1,6 @@
 # Guide: How to use the executable
 
-### 1. Request your data
+### 1. Request your data.
 You can retrieve your past Discord messages by following the instructions in the [article](https://support.discordapp.com/hc/en-us/articles/360004027692) below.  
 https://support.discordapp.com/hc/en-us/articles/360004027692
 
