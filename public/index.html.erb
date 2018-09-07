@@ -10,7 +10,8 @@
     <title>Analysis</title>
 </head>
 <body>
-    <h1 class='title'><%= "#{@username}'s " %>Results</h1>
+<img src="avatar.png" width="128" height="128" style="display: block; margin-left: auto; margin-right: auto;"> 
+<h1 class='title'><%= "#{@username}##{@user_tag} " %></h1>
     <p class="description-text">The complete set of processed data can be found in the 'output/' directory</p>
     <p class="description-text"><%= "All events parsed in UTC#{@utc_offset}" %></p>
     <div class="section">
@@ -102,3 +103,4 @@
         </div>
 </body>
 </html>
+
