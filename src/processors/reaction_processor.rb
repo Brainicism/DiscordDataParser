@@ -8,6 +8,10 @@ class ReactionProcessor
     end
 
     def process(activity, event_type)
+        prepare_reactions(activity, event_type)
+    end
+
+    def prepare_reactions(activity, event_type)
         return unless ['add_reaction', 'remove_reaction'].include? event_type
         if event_type == 'add_reaction'
             @total_reactions_added += 1

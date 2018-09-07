@@ -8,20 +8,20 @@ class MessageByDateProcessor
     end
 
     def process(line)
-        process_message_by_time_of_day(line[:date_time])
-        process_message_by_day_of_week(line[:date_time])
-        process_messages_by_date(line[:date_time])
+        prepare_message_by_time_of_day(line[:date_time])
+        prepare_message_by_day_of_week(line[:date_time])
+        prepare_messages_by_date(line[:date_time])
     end
 
-    def process_messages_by_date(time)
+    def prepare_messages_by_date(time)
         @messages_by_date[time.strftime(Utils::DATE_FORMAT)] += 1
     end
 
-    def process_message_by_time_of_day(time)
+    def prepare_message_by_time_of_day(time)
         @message_by_time_of_day[time.strftime(Utils::TIME_OF_DAY_FORMAT)] += 1
     end
 
-    def process_message_by_day_of_week(time)
+    def prepare_message_by_day_of_week(time)
         @message_by_day_of_week[time.strftime(Utils::DAY_OF_WEEK_FORMAT).to_i] += 1
     end
 

@@ -13,6 +13,10 @@ class SessionProcessor
     end
 
     def process(activity, event_type)
+        prepare_session_data(activity, event_type)
+    end
+
+    def prepare_session_data(activity, event_type)
         return unless ['session_end', 'session_start', 'app_opened'].include? event_type
         if event_type == 'app_opened'
             @total_app_open += 1

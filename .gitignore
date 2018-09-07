@@ -1,5 +1,6 @@
 data/
 output/
+tmp/
 .idea/
 *.csv
 *.exe

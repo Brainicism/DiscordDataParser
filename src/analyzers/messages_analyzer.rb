@@ -50,7 +50,8 @@ class MessagesAnalyzer
                     analysis_duration: (@end_time - @start_time).round(1),
                     total_message_count: output[:total_message_count],
                     average_words_per_message: output[:average_words_per_message],
-                    average_messages_per_day: output[:average_messages_per_day]
+                    average_messages_per_day: output[:average_messages_per_day],
+                    markov_sentences: output[:markov_sentences]
                 }
             },
             output_data: output
