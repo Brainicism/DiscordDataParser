@@ -27,6 +27,6 @@ Note: The name of the folder doesn't actually matter.
 
 
 Once the program is done, it should open the visualization in a web browser by itself.  
-If nothing happens, navigate to the `package/output/visualizations` folder and open `index.html` in your web browser of choice.  
+If nothing happens, navigate to the `package/output/visualizations/` folder and open `index.html` in your web browser of choice.  
 ![Opening visualization](examples/open_visual.png)
 
