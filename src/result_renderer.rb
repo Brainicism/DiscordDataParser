@@ -12,8 +12,10 @@ class ResultRenderer
     def render
         @json_output = @output.to_json
         @username = @output[:username]
+        @usertag = @output[:usertag]
         @specified_thread_name = @output[:specified_thread_name]
         @utc_offset = @output[:utc_offset]
+
         File.open('output/visualizations/index.js', 'w') { |file| file.write(@js_template.result(binding)) }
         File.open('output/visualizations/index.html', 'w') { |file| file.write(@html_template.result(binding)) }
     end

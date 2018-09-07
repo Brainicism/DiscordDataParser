@@ -44,8 +44,9 @@ class DiscordDataParser
             total[:misc_data].merge! (output[:misc_data] || {})
             total[:output_data].merge!(output[:output_data] || {})
         end
-
         final_output[:output_data][:utc_offset] = Utils.zone_offset_to_utc_offset(Time.zone_offset(Utils.timezone(@params)))
+
+        FileUtils.cp(File.expand_path(final_output[:misc_data][:avatarpath], __dir__), './output/visualizations/avatar.png')
         ResultRenderer.new(final_output, @activity_analyzer.output_available).render
         Utils.open_html_graphs
     end
