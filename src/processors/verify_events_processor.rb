@@ -6,6 +6,10 @@ class VerifyEventsProcessor
     end
 
     def process(_activity, event_type)
+        prepare_event_list(event_type)
+    end
+
+    def prepare_event_list(event_type)
         return unless @update || @verify
         @event_list << event_type unless @event_list.include? event_type
     end

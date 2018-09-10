@@ -1,74 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <script type="text/javascript" src="index.js"></script>
+    <script src="index.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="shortcut icon" href="favicon.ico" />
     <title>Analysis</title>
 </head>
 <body>
-    <h2 class='title'><%= "#{@username}'s " %>Results</h2>
-    <div class='chartRow'>
-        <div class='graph-1'>
-            <a class="graphSource" href="../analyzed/messages/by_date.csv">Source</a>
-            <canvas id="messagesByDay"></canvas>
+
+<h1 class='title'><%= "#{@username}##{@user_tag} " %></h1>
+    <p class="description-text">The complete set of processed data can be found in the 'output/' directory</p>
+    <p class="description-text"><%= "All events parsed in UTC#{@utc_offset}" %></p>
+    <div class="section">
+        <h2 class='section-heading'>Message Analysis  <%= "with '#{@specified_thread_name}'" if @specified_thread_name %></h2>
+        <h3 class='section-subheading'>Misc Data</h3>
+        <div class="misc-data">
+            <p>Analysis Length: <%= @misc_data[:messages][:analysis_duration]%> seconds</p>
+            <p>Total Message Count: <%= @misc_data[:messages][:total_message_count]%></p>
+            <p>Average Words Per Message: <%= @misc_data[:messages][:average_words_per_message]%></p>
+            <p>Average Messages Per Day: <%= @misc_data[:messages][:average_messages_per_day]%></p>
+        </div>
+
+        <h3 class='section-subheading'>Markov Sentences</h3>
+        <div class="markov-container">
+            <div class='markov-sentences speech-bubble'>
+                <% @misc_data[:messages][:markov_sentences].take(10).each do |sentence| %>
+                    <p><%=sentence %></p>
+                <% end %>
+                <a class="markov-more-link" href="../markov.txt">More..</a>
+            </div>
+            <img class="speech-bubble-pic" src="avatar.png" width="128" height="128">
+        </div>
+        <div class='chartRow'>
+            <div class='graph-1'>
+                <a class="graph-source" href="../analyzed/messages/by_date.csv">Source</a>
+                <canvas id="messagesByDay"></canvas>
+            </div>
+        </div>
+
+        <div class='chartRow'>
+            <div class='graph-2'>
+                <a class="graph-source" href="../analyzed/messages/by_day_of_week.csv">Source</a>
+                <canvas id="messagesByDayOfWeek"></canvas>
+            </div>
+            <div class='graph-2'>
+                <a class="graph-source" href="../analyzed/messages/by_time_of_day.csv">Source</a>
+                <canvas id="messagesByTimeOfDay"></canvas>
+            </div>
+        </div>
+
+        <div class='chartRow'>
+            <div class='graph-2'>
+                <a class="graph-source" href="../analyzed/messages/commonly_used_messages.csv">Source</a>
+                <canvas id="commonlyUsedMessages"></canvas>
+            </div>
+            <div class='graph-2'>
+                <a class="graph-source" href="../analyzed/messages/commonly_used_words.csv">Source</a>
+                <canvas id="commonlyUsedWords"></canvas>
+            </div>
+        </div>
+
+        <div class='chartRow'>
+            <div class='graph-2'>
+                <a class="graph-source" href="../analyzed/messages/per_thread.csv">Source</a>
+                <canvas id="perThread"></canvas>
+            </div>
         </div>
     </div>
+    <div class="section">
+        <h2 class="section-heading">Event Analysis</h2>
+        <% if @activity_available %>
+            <h3 class='section-subheading'>Misc Data</h3>
+            <div class="misc-data">
+                <p>Analysis Length: <%= @misc_data[:activity][:analysis_duration]%> seconds</p>
+                <p>Total Sessions: <%= @misc_data[:activity][:total_sessions]%></p>
+                <p>Average Session Length: <%= @misc_data[:activity][:average_session_length]%></p>
+                <p>Total App Opens: <%= @misc_data[:activity][:total_app_opens]%></p>
+                <p>Total Reactions Added: <%= @misc_data[:activity][:total_reactions_added]%></p>
+                <p>Total Reactions Removed: <%= @misc_data[:activity][:total_reactions_removed]%></p>
+                <p>Total Voice Channel Joins: <%= @misc_data[:activity][:total_voice_channel_joins]%></p>
+            </div>
+            <div class='chartRow'>
+                <div class='graph-2'>
+                    <a class="graph-source" href="../analyzed/activity/time_by_os.csv">Source</a>
+                    <canvas id="timeByOS"></canvas>
+                </div>
+                <div class='graph-2'>
+                    <a class="graph-source" href="../analyzed/activity/time_by_location.csv">Source</a>
+                    <canvas id="timeByLocation"></canvas>
+                </div>
+            </div>
 
-    <div class='chartRow'>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/messages/by_day_of_week.csv">Source</a>
-            <canvas id="messagesByDayOfWeek"></canvas>
+            <div class='chartRow'>
+                <div class='graph-2'>
+                    <a class="graph-source" href="../analyzed/activity/time_by_device.csv">Source</a>
+                    <canvas id="timeByDevice"></canvas>
+                </div>
+                <div class='graph-2'>
+                    <a class="graph-source" href="../analyzed/activity/reactions_by_use.csv">Source</a>
+                    <canvas id="reactionsByUse"></canvas>
+                </div>
+            </div>
+            <div class='chartRow'>
+                <div class='graph-2'>
+                    <a class="graph-source" href="../analyzed/activity/games_play_count.csv">Source</a>
+                    <canvas id="gamesPlayCount"></canvas>
+                </div>
+            </div>
+        <% else %>
+            <p class="description-text">No activity data found. Refer <a href="https://github.com/Brainicism/DiscordDataParser/blob/master/README.md#activity-data">here</a> for more details</p>
+        <% end %>
         </div>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/messages/by_time_of_day.csv">Source</a>
-            <canvas id="messagesByTimeOfDay"></canvas>
-        </div>
-    </div>
-
-    <div class='chartRow'>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/messages/commonly_used_messages.csv">Source</a>
-            <canvas id="commonlyUsedMessages"></canvas>
-        </div>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/messages/commonly_used_words.csv">Source</a>
-            <canvas id="commonlyUsedWords"></canvas>
-        </div>
-    </div>
-
-    <div class='chartRow'>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/messages/per_thread.csv">Source</a>
-            <canvas id="perThread"></canvas>
-        </div>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/activity/time_by_os.csv">Source</a>
-            <canvas id="timeByOS"></canvas>
-        </div>
-
-    </div>
-
-    <div class='chartRow'>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/activity/time_by_location.csv">Source</a>
-            <canvas id="timeByLocation"></canvas>
-        </div>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/activity/time_by_device.csv">Source</a>
-            <canvas id="timeByDevice"></canvas>
-        </div>
-
-    </div>
-
-    <div class='chartRow'>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/activity/reactions_by_use.csv">Source</a>
-            <canvas id="reactionsByUse"></canvas>
-        </div>
-        <div class='graph-2'>
-            <a class="graphSource" href="../analyzed/activity/games_play_count.csv">Source</a>
-            <canvas id="gamesPlayCount"></canvas>
-        </div>
-    </div>
 </body>
+</html>
+

@@ -4,6 +4,10 @@ class GameProcessor
     end
 
     def process(activity, event_type)
+        prepare_games_play_count(activity, event_type)
+    end
+
+    def prepare_games_play_count(activity, event_type)
         return unless ['launch_game', 'game_opened'].include? event_type
         case event_type
         when 'launch_game'

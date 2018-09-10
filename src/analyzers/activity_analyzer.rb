@@ -5,7 +5,7 @@ require_relative '../processors/reaction_processor'
 require_relative '../processors/session_processor'
 require_relative '../processors/verify_events_processor'
 class ActivityAnalyzer
-    attr_reader :path, :session_processor, :reaction_processor, :game_processor, :voice_processor, :verify_events_processor
+    attr_reader :path, :session_processor, :reaction_processor, :game_processor, :voice_processor, :verify_events_processor, :output_available
     attr_accessor :games
 
     def initialize(path, params)
@@ -16,10 +16,14 @@ class ActivityAnalyzer
         @game_processor = GameProcessor.new
         @voice_processor = VoiceProcessor.new
         @verify_events_processor = VerifyEventsProcessor.new(@params[:verify_events], @params[:update_events])
+        @output_available = false
     end
 
     def call
-        raise "Directory doesn't exist\n" unless File.directory? path
+        unless File.directory? path
+            puts "#{ path } doesn't exist\n"
+            return {}
+        end
         @start_time = Time.now
         puts 'Begin parsing activity...'
         index = 0
@@ -40,23 +44,29 @@ class ActivityAnalyzer
 
     def results(output)
         output_files = []
+        @output_available = true
         [:games_play_count, :time_by_os, :time_by_location, :time_by_device, :reactions_by_use].each do |type|
             Utils.write_output_csv(output, 'analyzed/activity', type) { |output_file| output_files.push(output_file) }
         end
         {
             output_files: output_files,
-            output_strings: [
-                "Activity Analysis #{(@end_time - @start_time).round(1)}s",
-                '-----------------------------------',
-                "Total Sessions: #{output[:total_sessions]}",
-                "Average session length: #{output[:average_session_length]} minutes",
-                "App opened #{output[:total_app_open]} times",
-                "Total Reactions Added: #{output[:total_reactions_added]}",
-                "Total Reactions Removed: #{output[:total_reactions_removed]}",
-                "Total Voice Channels Joined: #{output[:total_voice_channel_connections]}\n"
-            ],
-            output_raw: output
+            misc_data: {
+                activity: {
+                    analysis_duration: (@end_time - @start_time).round(1),
+                    total_sessions: output[:total_sessions],
+                    average_session_length: output[:average_session_length],
+                    total_app_opens: output[:total_app_open],
+                    total_reactions_added: output[:total_reactions_added],
+                    total_reactions_removed: output[:total_reactions_removed],
+                    total_voice_channel_joins: output[:total_voice_channel_connections]
+                }
+            },
+            output_data: output
         }
+    end
+
+    def timezone_offsets_by_day
+        @output_available ? output[:timezone_offsets_by_day] : {}
     end
 
     private

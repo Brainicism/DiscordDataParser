@@ -18,7 +18,13 @@ body {
     background-color: #2C2F33;
 }
 
-.graphSource {
+.description-text {
+    text-align: center;
+    color: #dcddde;
+    font-family: 'Roboto';
+}
+
+.graph-source {
     float: right;
     font-family: 'Roboto';
     color: #ffffff;
@@ -28,9 +34,89 @@ body {
     font-size: 0.75rem;
     text-decoration: underline;
 }
+
 .title {
     margin-top: 2rem;
     font-family: 'Roboto';
     color: #dcddde;
+    text-decoration: underline;
     text-align: center;
+}
+
+.section-heading {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Roboto';
+    color: #dcddde;
+    text-align: center;
+}
+
+.section-subheading {
+    margin-bottom: 0.5rem;
+    font-family: 'Roboto';
+    color: #dcddde;
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 5rem;
+}
+
+.misc-data {
+    margin-bottom: 1rem;
+}
+
+.misc-data > p {
+    text-align: center;
+    color: #dcddde;
+    font-family: 'Roboto';
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.markov-container{
+    text-align: center;
+}
+.markov-sentences {
+    border-radius: 2rem;
+    text-align: center;
+    color: #dcddde;
+    padding: 1rem 2rem 1rem 2rem;
+    margin: 0 5rem 0 5rem;
+    white-space: nowrap;
+    font-family: 'Roboto';
+    background-color: #23272A;
+}
+
+p {
+    word-break: break-all;
+    white-space: normal;
+}
+
+
+.markov-more-link {
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+.speech-bubble {
+    position: relative;
+    background: #23272A;
+    border-radius: .4em;
+    margin-bottom: 2rem;
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 1rem solid transparent;
+    border-top-color: #23272A;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: 0;
+    margin-bottom: -1rem;
 }
