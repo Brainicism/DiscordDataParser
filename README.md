@@ -1,22 +1,32 @@
 ![demo](/examples/message_analysis_charts.png)
 ![demo](/examples/markov.png)
 
-# Requirements
-Ruby >=2.0
 
-# Usage
+# Usage  
+## Executable:
+The executable can be found [here](https://github.com/Brainicism/DiscordDataParser/releases), simply execute it in the backup folder.  
+A guide to using it can be found [here](how_to_run_exe.md).  
+
+## Running the source:  
+#### Requirements:  
+Ruby >= 2.0.0
+```
+ruby -v
+```
+
 Bundle is required to manage dependencies
 ```
 gem install bundle
 bundle
 ```
+
 To run the application:
 ```
 ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
-#### Arguments
+#### Arguments:
 ```
---datapath=[PATH]               #specifies the directory of the backup
+--datapath=[PATH]               #specifies the directory of the backup, defaults to current working directory ./
 --word-min-length=[LENGTH]      #specifies a minimum length of commonly used word data
 --thread-id=[ID]                #specifies a specific thread to perform message analysis on
 --normalize-time=[true/false]   #parse message timestamps in the timezone they were sent from, default: true
@@ -26,8 +36,6 @@ ruby app.rb --data-path=[PATH_TO_BACK_UP]
 --update-events                 #see event section below
 --verify-events                 #see event section below
 ````
-
-An executable version can also be found [here](https://github.com/Brainicism/DiscordDataParser/releases). Simply execute it in the backup folder.
 
 An HTML file is generated with various charts to display the processed data. 
 
