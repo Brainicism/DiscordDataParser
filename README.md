@@ -16,7 +16,7 @@ ruby app.rb --data-path=[PATH_TO_BACK_UP]
 ```
 #### Arguments
 ```
---datapath=[PATH]               #specifies the directory of the backup
+--data-path=[PATH_TO_BACK_UP]   #specifies the directory of the backup
 --word-min-length=[LENGTH]      #specifies a minimum length of commonly used word data
 --thread-id=[ID]                #specifies a specific thread to perform message analysis on
 --normalize-time=[true/false]   #parse message timestamps in the timezone they were sent from, default: true
@@ -27,7 +27,7 @@ ruby app.rb --data-path=[PATH_TO_BACK_UP]
 --verify-events                 #see event section below
 ````
 
-An executable version can also be found [here](https://github.com/Brainicism/DiscordDataParser/releases). Simply execute it in the backup folder.
+**An executable version can also be found [here](https://github.com/Brainicism/DiscordDataParser/releases).** Simply execute it in the backup folder.
 
 An HTML file is generated with various charts to display the processed data. 
 
@@ -52,7 +52,7 @@ Other miscellaneous data is also displayed such as:
 - total reactions added/removed
 - total voice channel joins
 
-Human readable versions of each message thread are also generated in `output/prettified`.
+Human-readable versions of each message thread are also generated in `output/prettified`.
 
 # Requesting your data
 You can retrieve your past Discord messages by following the instructions in the article below.
