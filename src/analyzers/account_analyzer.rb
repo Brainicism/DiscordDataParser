@@ -2,6 +2,9 @@ class AccountAnalyzer
     def initialize(path, params)
         @path = path
         @params = params
+        @avatar_path = Dir.glob("#{@path}/avatar.*")[0]
+        # Use globbing pattern to allow detection of multiple
+        # avatar file formats
     end
 
     def call
@@ -9,8 +12,7 @@ class AccountAnalyzer
         {
             output_files: [],
             misc_data: {
-                avatar_extension: "png", #nitro?, figure out way to detect type
-                avatar_path: "#{@path}/avatar.png" #is it always called avatar?
+                avatar_path: "#{@avatar_path}"
             },
             output_data: {
                 username: account_details['username'],
