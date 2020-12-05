@@ -2,6 +2,7 @@ require 'json'
 require 'csv'
 require 'fileutils'
 require 'os'
+require 'smarter_csv'
 
 class Utils
     OUTPUT_PATH = './output'.freeze
@@ -42,7 +43,7 @@ class Utils
         end
 
         def read_csv_from_file(path)
-            CSV.read(path)
+            SmarterCSV.process(path, :convert_values_to_numeric => false)
         rescue Errno::ENOENT
             raise "Could not parse #{path}\n"
         end

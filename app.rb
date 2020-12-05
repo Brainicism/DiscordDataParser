@@ -16,7 +16,7 @@ class DiscordDataParser
             puts 'Defaulting to data directory ./'
             data_path = './'.freeze
         else
-            data_path = @params[:data_path]
+            data_path = @params[:data_path].gsub("\\", "\/")
         end
         messages_path = "#{data_path}/messages"
         activity_path = "#{data_path}/activity/analytics"

@@ -77,7 +77,7 @@ class MessagesAnalyzer
         csv_lines.shift
         begin
             csv_lines = csv_lines.map do |csv_line|
-                parsed_time = Time.parse(csv_line[1])
+                parsed_time = Time.parse(csv_line[:timestamp])
                 if @params[:normalize_time] == false
                     timezone_offset = Time.zone_offset(Utils.timezone(@params))
                 else
@@ -86,8 +86,8 @@ class MessagesAnalyzer
                 raise 'Invalid timezone' unless timezone_offset
                 {
                     date_time: parsed_time.utc + timezone_offset,
-                    message: csv_line[2],
-                    attachments: csv_line[3]
+                    message: csv_line[:contents],
+                    attachments: csv_line[:attachments]
                 }
             end
         rescue StandardError => e
