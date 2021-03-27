@@ -27,7 +27,7 @@ class MessagesAnalyzer
         total_threads = message_index.length
         @timezone_offsets_by_day = @activity_analyzer.timezone_offsets_by_day || {}
         message_index.each_with_index do |(thread_id, thread_name), index|
-            break if @params[:quick_run] == true && index > 5
+            break if @params[:quick_run] == true && index > 50
             thread_name = thread_name.nil? ? 'unknown_user' : thread_name
             puts "Progress: #{index + 1}/#{total_threads} (#{thread_name})"
             parse_message_file("#{path}/#{thread_id}/messages.csv", thread_name, thread_id)
@@ -51,7 +51,6 @@ class MessagesAnalyzer
                     total_message_count: output[:total_message_count],
                     average_words_per_message: output[:average_words_per_message],
                     average_messages_per_day: output[:average_messages_per_day],
-                    markov_sentences: output[:markov_sentences]
                 }
             },
             output_data: output
@@ -98,6 +97,9 @@ class MessagesAnalyzer
     end
 
     def new_data(lines, thread_name, thread_id)
+        # discord backup only has complete data for past 6 months
+        months = @params[:months_look_back] ? @params[:months_look_back].to_i : 6
+        lines = lines.select{|line| line[:date_time].to_date > Date.today.prev_month(months) }
         processors_by_thread.each { |processor| processor.process_messages_by_thread(lines, thread_name, thread_id) }
         lines.each do |line|
             processors.each { |processor| processor.process(line) }

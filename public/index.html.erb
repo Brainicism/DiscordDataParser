@@ -23,17 +23,6 @@
             <p>Average Words Per Message: <%= @misc_data[:messages][:average_words_per_message]%></p>
             <p>Average Messages Per Day: <%= @misc_data[:messages][:average_messages_per_day]%></p>
         </div>
-
-        <h3 class='section-subheading'>Markov Sentences</h3>
-        <div class="markov-container">
-            <div class='markov-sentences speech-bubble'>
-                <% @misc_data[:messages][:markov_sentences].take(10).each do |sentence| %>
-                    <p><%=sentence %></p>
-                <% end %>
-                <a class="markov-more-link" href="../markov.txt">More..</a>
-            </div>
-            <img class="speech-bubble-pic" src="avatar.png" width="128" height="128">
-        </div>
         <div class='chartRow'>
             <div class='graph-1'>
                 <a class="graph-source" href="../analyzed/messages/by_date.csv">Source</a>

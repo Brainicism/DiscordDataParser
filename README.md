@@ -1,5 +1,4 @@
 ![demo](/examples/message_analysis_charts.png)
-![demo](/examples/markov.png)
 
 # Requirements
 Ruby >=2.0
@@ -21,6 +20,7 @@ ruby app.rb --data-path=[PATH_TO_BACK_UP]
 --thread-id=[ID]                #specifies a specific thread to perform message analysis on
 --normalize-time=[true/false]   #parse message timestamps in the timezone they were sent from, default: true
 --timezone=[TIMEZONE]           #specifies the timezone/offset to parse the data in. Will accept RFC 2822 specified timezones or ±HH:MM UTC offsets
+--months=[months]               #specifies how far back to process messages (the backup only has consistent data for past 6 months), default: 6
 --rebuild-binary                #rebuilds an executable using ocra
 --quick-run                     #parse a subset of the available data for testing purposes
 --update-events                 #see event section below
@@ -40,8 +40,6 @@ Various charts are generated such as:
 - time spent by OS/location/device
 - most used reactions
 - game play count
-
-Various markov strings are generated and displayed.
 
 Other miscellaneous data is also displayed such as:
 

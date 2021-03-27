@@ -13,6 +13,7 @@ class ArgParser
     ALLOWED_FLAGS_WITH_ARG = [
         { flag: '--data-path=', param_key: :data_path, type: ArgType::STRING },
         { flag: '--word-min-length=', param_key: :word_min_length, type: ArgType::INTEGER },
+        { flag: '--months=', param_key: :months_look_back, type: ArgType::INTEGER },
         { flag: '--thread-id=', param_key: :thread_id, type: ArgType::STRING },
         { flag: '--timezone=', param_key: :timezone, type: ArgType::STRING },
         { flag: '--normalize-time=', param_key: :normalize_time, type: ArgType::BOOL}

@@ -74,29 +74,9 @@ body {
     margin-bottom: 0;
 }
 
-.markov-container{
-    text-align: center;
-}
-.markov-sentences {
-    border-radius: 2rem;
-    text-align: center;
-    color: #dcddde;
-    padding: 1rem 2rem 1rem 2rem;
-    margin: 0 5rem 0 5rem;
-    white-space: nowrap;
-    font-family: 'Roboto';
-    background-color: #23272A;
-}
-
 p {
     word-break: break-all;
     white-space: normal;
-}
-
-
-.markov-more-link {
-    text-decoration: underline;
-    color: #ffffff;
 }
 
 .speech-bubble {
