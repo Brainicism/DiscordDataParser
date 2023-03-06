@@ -97,9 +97,6 @@ class MessagesAnalyzer
     end
 
     def new_data(lines, thread_name, thread_id)
-        # discord backup only has complete data for past 6 months
-        months = @params[:months_look_back] ? @params[:months_look_back].to_i : 6
-        lines = lines.select{|line| line[:date_time].to_date > Date.today.prev_month(months) }
         processors_by_thread.each { |processor| processor.process_messages_by_thread(lines, thread_name, thread_id) }
         lines.each do |line|
             processors.each { |processor| processor.process(line) }
