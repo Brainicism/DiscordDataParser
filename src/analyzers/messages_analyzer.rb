@@ -30,7 +30,7 @@ class MessagesAnalyzer
             break if @params[:quick_run] == true && index > 50
             thread_name = thread_name.nil? ? 'unknown_user' : thread_name
             puts "Progress: #{index + 1}/#{total_threads} (#{thread_name})"
-            parse_message_file("#{path}/#{thread_id}/messages.csv", thread_name, thread_id)
+            parse_message_file("#{path}/c#{thread_id}/messages.csv", thread_name, thread_id)
         end
         @end_time = Time.now
         puts 'Finished parsing messages...'

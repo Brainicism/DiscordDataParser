@@ -37,7 +37,7 @@ class DiscordDataParser
         if @params[:verify_events] || @params[:update_events]
             analyzers = [@activity_analyzer]
         else
-            analyzers = [@activity_analyzer, @message_analyzer, @account_analyzer]
+            analyzers = [@message_analyzer, @account_analyzer]
         end
         final_output = analyzers.map(&:call).each_with_object(output_files: [], misc_data: {}, output_data: {}) do |output, total|
             total[:output_files] += output[:output_files] || []
